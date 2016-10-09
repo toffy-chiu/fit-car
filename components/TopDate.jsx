@@ -11,6 +11,14 @@ module.exports=React.createClass({
             month:now.getMonth()
         };
     },
+    componentDidMount:function(){
+        console.log('componentDidMount');
+        this.props.onDateChange(this.state.year+'-'+(this.state.month<9?'0':'')+(this.state.month+1));
+    },
+    componentDidUpdate:function(){
+        console.log('componentDidUpdate');
+        this.props.onDateChange(this.state.year+'-'+(this.state.month<9?'0':'')+(this.state.month+1));
+    },
     handleClick:function(e){
         e.preventDefault();
         var ctrl=e.currentTarget.getAttribute('data-ctrl');

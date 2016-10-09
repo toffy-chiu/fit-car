@@ -18,11 +18,6 @@ module.exports = React.createClass({
             others:0
         };
     },
-    componentDidMount:function(){
-        setTimeout(function(){
-            this.setState({road:200});
-        }.bind(this), 3000);
-    },
     /**
      * 获取每一项的HTML
      * @param itemName
