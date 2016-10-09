@@ -1,0 +1,28 @@
+{
+  "name": "fit-car",
+  "version": "1.0.0",
+  "description": "record something information of car",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./server.js"
+  },
+  "keywords": [
+    "fit",
+    "car",
+    "react",
+    "spa"
+  ],
+  "author": "toffy",
+  "license": "ISC",
+  "devDependencies": {
+    "amazeui-react": "^1.2.2",
+    "amazeui-touch": "^1.0.0",
+    "react": "^15.3.2",
+    "react-addons-css-transition-group": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-hot-loader": "^3.0.0-beta.5",
+    "react-router": "^2.8.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
+  }
+}

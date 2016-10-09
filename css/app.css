@@ -1,0 +1,30 @@
+.topDate{
+    text-align: center;
+    border-bottom:1px solid #CCCCCC;
+    -webkit-box-shadow: 0 1px 2px #ccc;
+    -moz-box-shadow: 0 1px 2px #ccc;
+    box-shadow: 0 1px 2px #ccc;
+    height: 30px;
+    line-height:30px;
+}
+.topDate a{
+    color: #333;
+}
+.topDate .icon{
+    font-size: 16px;
+}
+.itemTable .am-badge{
+    width: 20px;
+    height: 20px;
+    line-height:20px;
+    padding:0;
+    vertical-align: text-bottom;
+}
+.itemRows .am-badge{
+    width: 40px;
+    height: 40px;
+    line-height:40px;
+    padding:0;
+    vertical-align: text-bottom;
+    font-size: 1.8rem;
+}
