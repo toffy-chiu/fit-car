@@ -1,7 +1,10 @@
 var React=require('react');
+var UI = require('amazeui-touch'),
+    Icon=UI.Icon;
 
 module.exports=React.createClass({
     getInitialState:function(){
+        //默认日期
         var now=new Date();
         return {
             year:now.getFullYear(),
@@ -9,15 +12,16 @@ module.exports=React.createClass({
         };
     },
     handleClick:function(e){
-        var className=e.currentTarget.className;
-        if(className=='prev'){
+        e.preventDefault();
+        var ctrl=e.currentTarget.getAttribute('data-ctrl');
+        if(ctrl=='prev'){
             if(this.state.month<1){
                 this.state.year-=1;
                 this.state.month=11;
             }else{
                 this.state.month-=1;
             }
-        }else if(className=='next'){
+        }else if(ctrl=='next'){
             if(this.state.month>10){
                 this.state.year+=1;
                 this.state.month=0;
@@ -30,9 +34,9 @@ module.exports=React.createClass({
     render: function() {
         return (
             <div className="topDate">
-                <a href="javascript:;" className="prev" onClick={this.handleClick}><span className="icon icon-left-nav"></span></a>
+                <Icon name="left-nav" data-ctrl="prev" onClick={this.handleClick} onTouchStart={this.handleClick}/>
                 <strong> {this.state.year}年{(this.state.month<9?'0':'')+(this.state.month+1)}月 </strong>
-                <a href="javascript:;" className="next" onClick={this.handleClick}><span className="icon icon-right-nav"></span></a>
+                <Icon name="right-nav" data-ctrl="next" onClick={this.handleClick} onTouchStart={this.handleClick}/>
             </div>
         )
     }

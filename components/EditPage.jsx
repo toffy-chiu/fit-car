@@ -9,7 +9,18 @@ var UI = require('amazeui-touch'),
 var utils = require('./utils');
 var TopDate = require('./TopDate');
 var ItemRows = require('./ItemRows');
+var db = require('../src/IndexDB');
 module.exports=React.createClass({
+    handleAddRecord:function(e){
+        e.preventDefault();
+        var data={
+            date:this.refs.date.getValue(),
+            type:this.refs.itemRows.getType(),
+            amount:this.refs.amount.getValue()
+        };
+        db.add(db.TABLE_CONSUMPTION, data);
+        location.hash='/index';
+    },
     render:function(){
         var navBarProps = {
             title: '新增消费记录',
@@ -24,11 +35,11 @@ module.exports=React.createClass({
         return (
             <Container fill direction="column">
                 <NavBar {...navBarProps} />
-                <Field type="date" labelBefore="消费时间：" defaultValue={utils.dateFormat(new Date(), 'yyyy-MM-dd')} />
-                <ItemRows />
-                <Field type="number" labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
+                <Field ref="date" type="date" labelBefore="消费时间：" defaultValue={utils.dateFormat(new Date(), 'yyyy-MM-dd')} />
+                <ItemRows ref="itemRows" />
+                <Field ref="amount" type="number" labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
                 <Group>
-                    <Button amStyle="primary" block>新增记录</Button>
+                    <Button onClick={this.handleAddRecord} onTouchStart={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
                 </Group>
             </Container>
         )

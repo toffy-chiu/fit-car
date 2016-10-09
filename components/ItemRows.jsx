@@ -9,7 +9,7 @@ var UI = require('amazeui-touch'),
 module.exports = React.createClass({
     getInitialState:function(){
         return {
-            selected:null
+            selected:'gas'
         };
     },
     componentDidMount:function(){
@@ -17,6 +17,9 @@ module.exports = React.createClass({
     handleClick:function(e){
         e.preventDefault();
         this.setState({selected:e.currentTarget.getAttribute('data-key')});
+    },
+    getType:function(){
+        return this.state.selected;
     },
     /**
      * 获取每一项的HTML
