@@ -5,14 +5,27 @@ var ReactRouter=require('react-router'),
     Route=ReactRouter.Route,
     Router=ReactRouter.Router;
 
-var IndexPage = require('./IndexPage');
-var EditPage = require('./EditPage');
+//首页
+var IndexPage=function(location, cb){
+    require.ensure([], function(require){
+        //cb(error, value);
+        cb(null, require('./IndexPage'));
+    }, 'index');
+};
+
+//编辑页
+var EditPage=function(location, cb){
+    require.ensure([], function(require){
+        //cb(error, value);
+        cb(null, require('./EditPage'));
+    }, 'edit');
+};
 
 ReactDOM.render(
     <Router history={hashHistory}>
-        <Route path="/" component={IndexPage}/>
-        <Route path="/index" component={IndexPage}/>
-        <Route path="/edit" component={EditPage}/>
+        <Route path="/" getComponent={IndexPage}/>
+        <Route path="/index" getComponent={IndexPage}/>
+        <Route path="/edit" getComponent={EditPage}/>
     </Router>
     ,
     document.getElementById('container')

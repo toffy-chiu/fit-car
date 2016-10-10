@@ -84,7 +84,9 @@ IndexDB.prototype.get=function(storeName, indexArr, keyRange, callback){
     this.open(function(db){
         var transaction=db.transaction(storeName, 'readonly');
         var store=transaction.objectStore(storeName);
+        //指定索引，条件查询
         var index = store.index("index_"+indexArr.join('_'));
+        //打开游标，进行遍历
         var request=index.openCursor(keyRange);
         var list=[];
         request.onsuccess=function(e){
@@ -100,5 +102,6 @@ IndexDB.prototype.get=function(storeName, indexArr, keyRange, callback){
         };
     });
 };
+
 
 module.exports=new IndexDB();
