@@ -1,4 +1,10 @@
 module.exports={
+    /**
+     * 日期格式化
+     * @param date
+     * @param pattern
+     * @returns {*}
+     */
     dateFormat:function(date, pattern){
         function fix(t) {
             if (t < 10)

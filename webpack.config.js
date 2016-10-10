@@ -2,16 +2,25 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path=require('path');
+var copy=require('./src/lib/copy');
 
 // 生产环境
 var isProd = process.env.NODE_ENV.trim() === 'production';
 
+//copy static files
+//css
+copy('./src/css', './dist');
+//images
+copy('./src/img', './dist');
+
 module.exports = {
     entry: {
-        app: [
+        app: isProd?[
+            './src/components/app'
+        ]:[
             'webpack-dev-server/client?http://0.0.0.0:3000',
             'webpack/hot/only-dev-server',
-            './components/app'
+            './src/components/app'
         ],
         vendor:[
             'react',

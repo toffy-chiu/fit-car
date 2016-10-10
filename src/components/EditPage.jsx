@@ -6,10 +6,10 @@ var UI = require('amazeui-touch'),
     Group=UI.Group,
     Container=UI.Container;
 
-var utils = require('./utils');
+var utils = require('../lib/utils');
 var TopDate = require('./TopDate');
 var ItemRows = require('./ItemRows');
-var db = require('../src/IndexDB');
+var db = require('../lib/IndexDB');
 module.exports=React.createClass({
     handleAddRecord:function(e){
         e.preventDefault();

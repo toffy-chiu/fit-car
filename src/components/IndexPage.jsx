@@ -7,7 +7,7 @@ var UI = require('amazeui-touch'),
 var TopDate = require('./TopDate');
 var ItemTable = require('./ItemTable');
 
-var db = require('../src/IndexDB');
+var db = require('../lib/IndexDB');
 
 module.exports=React.createClass({
     handleDetail:function(key, e){
