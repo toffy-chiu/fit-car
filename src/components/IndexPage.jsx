@@ -13,7 +13,7 @@ module.exports=React.createClass({
     handleDetail:function(key, e){
         e.preventDefault();
     },
-    topDateChange:function(date){console.log(this.refs);
+    topDateChange:function(date){
         var itemTable=this.refs.itemTable;
         db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.startWith([date]), function(list){
             console.log(list);
@@ -31,7 +31,7 @@ module.exports=React.createClass({
             list.forEach(function(o){
                 state[o.type]+=+o.amount;
             });
-            itemTable.setState(state);
+            //itemTable.setState(state);
         });
     },
     render:function(){

@@ -5,9 +5,9 @@ var path=require('path');
 var copy=require('./src/lib/copy');
 
 // 生产环境
-var isProd = process.env.NODE_ENV.trim() === 'production';
+var isProd = process.env.NODE_ENV === 'production';
 
-//copy static files
+//复制静态资源文件
 //css
 copy('./src/css', './dist');
 //images
@@ -30,8 +30,8 @@ module.exports = {
         ]
     },
     output: {
-        publicPath:isProd ? './' : '/dist/', //给require.ensure用
-        path: './dist', //js的发布路径
+        publicPath:isProd ? './' : '/', //给require.ensure用；webpack-dev-server的网站名
+        path: path.resolve(__dirname, './dist'), //js的发布路径
         filename: isProd ? '[name].[chunkhash:8].js' : '[name].js',
         chunkFilename:isProd ? '[name].chunk.[chunkhash:8].js' : '[name].chunk.js'
     },
@@ -44,13 +44,13 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
         new ExtractTextPlugin(isProd ? '[name].[chunkhash:8].css' : '[name].css'),
         new HtmlWebpackPlugin({
             title:'车辆花销管理',
-            template:'./src/index.html',
+            template:isProd?'./src/index.html':'./src/index.debug.html',
             filename:'./index.html' //结合output.path
-        }),
-        new webpack.HotModuleReplacementPlugin()
+        })
     ]
 };
