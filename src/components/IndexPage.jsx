@@ -10,14 +10,18 @@ var ItemTable = require('./ItemTable');
 var db = require('../lib/IndexDB');
 
 module.exports=React.createClass({
+    getInitialState:function(){
+        return {
+            tableValue:{}
+        };
+    },
     handleDetail:function(key, e){
         e.preventDefault();
     },
     topDateChange:function(date){
-        var itemTable=this.refs.itemTable;
-        db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.startWith([date]), function(list){
-            console.log(list);
-            //set item table
+        //读取数据库
+        db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([date]), function(list){
+            //重量各项值
             var state={
                 gas:0,
                 park:0,
@@ -28,11 +32,13 @@ module.exports=React.createClass({
                 road:0,
                 others:0
             };
+            //计算各项总数
             list.forEach(function(o){
                 state[o.type]+=+o.amount;
             });
-            //itemTable.setState(state);
-        });
+            //设置当前状态（通过属性值更新子组件）
+            this.setState({tableValue:state});
+        }.bind(this));
     },
     render:function(){
         var navBarProps = {
@@ -46,9 +52,11 @@ module.exports=React.createClass({
         };
         return (
             <Container fill direction="column">
-                <NavBar {...navBarProps} />
-                <TopDate onDateChange={this.topDateChange} />
-                <ItemTable ref="itemTable" />
+                <div className="views">
+                    <NavBar {...navBarProps} />
+                    <TopDate onDateChange={this.topDateChange} />
+                    <ItemTable value={this.state.tableValue} />
+                </div>
                 <TabBar amStyle="primary">
                     <TabBar.Item title="记一笔" icon="plus" href="#/edit" />
                     <TabBar.Item title="查看明细" icon="list" onClick={this.handleDetail} onTouchStart={this.handleDetail} />

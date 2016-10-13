@@ -18,8 +18,12 @@ module.exports=React.createClass({
             type:this.refs.itemRows.getType(),
             amount:this.refs.amount.getValue()
         };
-        db.add(db.TABLE_CONSUMPTION, data);
-        location.hash='/index';
+        if(data.amount>0) {
+            db.add(db.TABLE_CONSUMPTION, data);
+            location.hash = '/index';
+        }else{
+            alert('消费金额无效');
+        }
     },
     render:function(){
         var navBarProps = {
@@ -38,7 +42,7 @@ module.exports=React.createClass({
                 <Field ref="date" type="date" labelBefore="消费时间：" defaultValue={utils.dateFormat(new Date(), 'yyyy-MM-dd')} />
                 <ItemRows ref="itemRows" />
                 <Field ref="amount" type="number" labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
-                <Group>
+                <Group className="margin-0">
                     <Button onClick={this.handleAddRecord} onTouchStart={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
                 </Group>
             </Container>

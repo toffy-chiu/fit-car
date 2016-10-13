@@ -6,18 +6,6 @@ var UI = require('amazeui-touch'),
     Group=UI.Group;
 
 module.exports = React.createClass({
-    getInitialState:function(){
-        return {
-            gas:0,
-            park:0,
-            wash:0,
-            maintain:0,
-            fix:0,
-            breach:0,
-            road:0,
-            others:0
-        };
-    },
     /**
      * 获取每一项的HTML
      * @param itemName
@@ -34,22 +22,22 @@ module.exports = React.createClass({
         //    others:{name:'其他', icon:'am-icon-ellipsis-h'}
         //};
         var itemObj={
-            gas:{name:'加油', icon:'star'},
-            park:{name:'停车', icon:'star'},
-            wash:{name:'洗车', icon:'star'},
-            maintain:{name:'保养', icon:'star'},
-            fix:{name:'维修', icon:'star'},
-            breach:{name:'违章', icon:'star'},
-            road:{name:'过路', icon:'star'},
-            others:{name:'其他', icon:'star'}
+            gas:{name:'加油', icon:'info'},
+            park:{name:'停车', icon:'info'},
+            wash:{name:'洗车', icon:'info'},
+            maintain:{name:'保养', icon:'info'},
+            fix:{name:'维修', icon:'info'},
+            breach:{name:'违章', icon:'info'},
+            road:{name:'过路', icon:'info'},
+            others:{name:'其他', icon:'info'}
         };
         return (
             <Col>
-                <span className={'am-badge am-round'+(this.state[itemName]?' am-badge-primary':'')}><Icon name={itemObj[itemName].icon} /></span>
-                <small style={{marginLeft:'5px'}}>{itemObj[itemName].name}</small>
+                <Icon name={itemObj[itemName].icon} />
+                <small style={{marginLeft:'5px',verticalAlign:'text-top'}}>{itemObj[itemName].name}</small>
                 {
-                    this.state[itemName]
-                    ?<span className="am-fr">￥{this.state[itemName]}</span>
+                    this.props.value[itemName]
+                    ?<span className="fr">￥{this.props.value[itemName]}</span>
                     :null
                 }
             </Col>
@@ -57,7 +45,7 @@ module.exports = React.createClass({
     },
     render: function() {
         return (
-            <Group noPadded>
+            <Group noPadded className="margin-0">
                 <Grid bordered avg={2} className="itemTable">
                     {this.getItemHTML('gas')}
                     {this.getItemHTML('park')}

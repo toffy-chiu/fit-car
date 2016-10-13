@@ -48,16 +48,16 @@ module.exports = React.createClass({
         };
         return (
             <Col>
-                <Badge onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.state.selected==itemName?'secondary':'default'} rounded>
+                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:2.6}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.state.selected==itemName?'secondary':'default'} rounded>
                     <Icon name={itemObj[itemName].icon} />
                 </Badge>
-                <small>{itemObj[itemName].name}</small>
+                <div>{itemObj[itemName].name}</div>
             </Col>
         )
     },
     render: function() {
         return (
-            <Group noPadded>
+            <Group noPadded className="margin-0 text-center">
                 <Grid avg={4} className="itemRows">
                     {this.getItemHTML('gas')}
                     {this.getItemHTML('park')}

@@ -11,8 +11,10 @@ function IndexDB(){
 
 IndexDB.prototype.index_date=['date'];
 IndexDB.prototype.keyRange={
-    startWith:function(value){
-        return IDBKeyRange.lowerBound(value);
+    //特定某个月的
+    atMonth:function(value){
+        //按月份最大天数进行对比
+        return IDBKeyRange.bound([value[0]+'-01'], [value[0]+'-31']);
     }
 };
 

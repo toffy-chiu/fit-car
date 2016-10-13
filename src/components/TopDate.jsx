@@ -11,13 +11,12 @@ module.exports=React.createClass({
             month:now.getMonth()
         };
     },
-    componentDidMount:function(){
-        console.log('componentDidMount');
+    //触发更新
+    triggerUpdate:function(){
         this.props.onDateChange(this.state.year+'-'+(this.state.month<9?'0':'')+(this.state.month+1));
     },
-    componentDidUpdate:function(){
-        console.log('componentDidUpdate');
-        this.props.onDateChange(this.state.year+'-'+(this.state.month<9?'0':'')+(this.state.month+1));
+    componentDidMount:function(){
+        this.triggerUpdate();
     },
     handleClick:function(e){
         e.preventDefault();
@@ -38,6 +37,7 @@ module.exports=React.createClass({
             }
         }
         this.setState(this.state);
+        this.triggerUpdate();
     },
     render: function() {
         return (
