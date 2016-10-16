@@ -95,6 +95,8 @@ IndexDB.prototype.get=function(storeName, indexArr, keyRange, callback){
             var cursor=e.target.result;
             if(cursor){
                 var row=cursor.value;
+                //set primary key
+                row.id=cursor.primaryKey;
                 list.push(row);
                 cursor.continue();
             }else {

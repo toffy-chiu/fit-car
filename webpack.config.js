@@ -8,10 +8,12 @@ var copy=require('./src/lib/copy');
 var isProd = process.env.NODE_ENV === 'production';
 
 //复制静态资源文件
-//css
-copy('./src/css', './dist');
-//images
-copy('./src/img', './dist');
+if(isProd) {
+    //css
+    copy('./src/css', './dist');
+    //images
+    copy('./src/img', './dist');
+}
 
 module.exports = {
     entry: {

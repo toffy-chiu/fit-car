@@ -21,11 +21,20 @@ var EditPage=function(location, cb){
     }, 'edit');
 };
 
+//明细页
+var DetailPage=function(location, cb){
+    require.ensure([], function(require){
+        //cb(error, value);
+        cb(null, require('./DetailPage'));
+    }, 'detail');
+};
+
 ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/" getComponent={IndexPage}/>
         <Route path="/index" getComponent={IndexPage}/>
         <Route path="/edit" getComponent={EditPage}/>
+        <Route path="/detail/:date" getComponent={DetailPage}/>
     </Router>
     ,
     document.getElementById('container')

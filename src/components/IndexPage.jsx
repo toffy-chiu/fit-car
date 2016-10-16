@@ -12,13 +12,14 @@ var db = require('../lib/IndexDB');
 module.exports=React.createClass({
     getInitialState:function(){
         return {
+            date:'',
             tableValue:{}
         };
     },
-    handleDetail:function(key, e){
-        e.preventDefault();
-    },
     topDateChange:function(date){
+        //设置当前月份
+        this.setState({date:date});
+
         //读取数据库
         db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([date]), function(list){
             //重量各项值
@@ -59,7 +60,7 @@ module.exports=React.createClass({
                 </div>
                 <TabBar amStyle="primary">
                     <TabBar.Item title="记一笔" icon="plus" href="#/edit" />
-                    <TabBar.Item title="查看明细" icon="list" onClick={this.handleDetail} onTouchStart={this.handleDetail} />
+                    <TabBar.Item title="查看明细" icon="list" href={'#/detail/'+this.state.date} />
                 </TabBar>
             </Container>
         )

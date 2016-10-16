@@ -1,0 +1,15 @@
+CACHE MANIFEST
+#version 1.4
+CACHE:
+app.js
+edit.chunk.js
+index.chunk.js
+vendor.js
+amazeui.touch.min.css
+app.css
+favicon.png
+fonts/ratchicons.ttf
+fonts/ratchicons.woff
+fonts/ratchicons.woff2
+NETWORK:
+*

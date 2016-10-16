@@ -48,7 +48,7 @@ module.exports = React.createClass({
         };
         return (
             <Col>
-                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:2.6}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.state.selected==itemName?'secondary':'default'} rounded>
+                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:2.9}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.state.selected==itemName?'secondary':'default'} rounded>
                     <Icon name={itemObj[itemName].icon} />
                 </Badge>
                 <div>{itemObj[itemName].name}</div>

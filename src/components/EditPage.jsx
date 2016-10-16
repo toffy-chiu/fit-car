@@ -7,7 +7,6 @@ var UI = require('amazeui-touch'),
     Container=UI.Container;
 
 var utils = require('../lib/utils');
-var TopDate = require('./TopDate');
 var ItemRows = require('./ItemRows');
 var db = require('../lib/IndexDB');
 module.exports=React.createClass({
@@ -43,7 +42,7 @@ module.exports=React.createClass({
                 <ItemRows ref="itemRows" />
                 <Field ref="amount" type="number" labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
                 <Group className="margin-0">
-                    <Button onClick={this.handleAddRecord} onTouchStart={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
+                    <Button onClick={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
                 </Group>
             </Container>
         )
