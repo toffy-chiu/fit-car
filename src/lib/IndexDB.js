@@ -1,3 +1,4 @@
+var utils=require('./utils');
 var VERSION = 9;
 var DB_NAME='fit-car';
 
@@ -76,13 +77,63 @@ IndexDB.prototype.add=function(storeName, data){
 };
 
 /**
+ * 保存
+ * @param storeName
+ * @param id 主键字段
+ * @param data 保存的对象
+ */
+IndexDB.prototype.save=function(storeName, id, data){
+    this.open(function(db){
+        var transaction=db.transaction(storeName, 'readwrite');
+        var store=transaction.objectStore(storeName);
+        var request=store.get(+id);
+        request.onsuccess=function(e){
+            var row=e.target.result;
+            utils.objectAssign(row, data);
+            store.put(row, +id);
+        };
+    });
+};
+
+/**
+ * 保存
+ * @param storeName
+ * @param id 主键字段
+ */
+IndexDB.prototype.del=function(storeName, id){
+    this.open(function(db){
+        var transaction=db.transaction(storeName, 'readwrite');
+        var store=transaction.objectStore(storeName);
+        store.delete(+id);
+    });
+};
+
+/**
+ * 获取指定条件的数据列表
+ * @param storeName
+ * @param id 主键字段
+ * @param callback
+ */
+IndexDB.prototype.get=function(storeName, id, callback){
+    this.open(function(db){
+        var transaction=db.transaction(storeName, 'readonly');
+        var store=transaction.objectStore(storeName);
+        var request=store.get(+id);
+        request.onsuccess=function(e){
+            var row=e.target.result;
+            callback(row);
+        };
+    });
+};
+
+/**
  * 获取指定条件的数据列表
  * @param storeName
  * @param indexArr array 条件字段名
  * @param keyRange IDBKeyRange 条件对象
  * @param callback
  */
-IndexDB.prototype.get=function(storeName, indexArr, keyRange, callback){
+IndexDB.prototype.getList=function(storeName, indexArr, keyRange, callback){
     this.open(function(db){
         var transaction=db.transaction(storeName, 'readonly');
         var store=transaction.objectStore(storeName);

@@ -33,7 +33,7 @@ ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/" getComponent={IndexPage}/>
         <Route path="/index" getComponent={IndexPage}/>
-        <Route path="/edit" getComponent={EditPage}/>
+        <Route path="/edit(/:id)" getComponent={EditPage}/>
         <Route path="/detail/:date" getComponent={DetailPage}/>
     </Router>
     ,

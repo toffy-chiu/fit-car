@@ -17,7 +17,7 @@ module.exports=React.createClass({
     },
     componentDidMount:function(){
         //读取数据库
-        db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([this.props.params.date]), function(list){
+        db.getList(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([this.props.params.date]), function(list){
             //倒序排序
             list.sort(function(a, b){
                 return new Date(b.date).getTime()-new Date(a.date).getTime();
@@ -65,7 +65,7 @@ module.exports=React.createClass({
                                 o=this.getItem(o);
                                 return (
                                     <li key={o.id} className="item item-linked">
-                                        <Link to="/edit" style={{display:'flex',alignItems:'center'}}>
+                                        <Link to={'/edit/'+o.id} style={{display:'flex',alignItems:'center'}}>
                                             <div className="text-center" style={{lineHeight:1,borderRight:'1px solid #ccc',paddingRight:10,marginRight:10}}>
                                                 <strong>{o.day}</strong>
                                                 <br/>

@@ -7,12 +7,13 @@ var UI = require('amazeui-touch'),
     Group=UI.Group;
 
 module.exports = React.createClass({
+    propTypes:{
+        value:React.PropTypes.oneOf(['gas', 'park', 'wash', 'maintain', 'fix', 'breach', 'road', 'others'])
+    },
     getInitialState:function(){
         return {
-            selected:'gas'
+            selected:this.props.value
         };
-    },
-    componentDidMount:function(){
     },
     handleClick:function(e){
         e.preventDefault();

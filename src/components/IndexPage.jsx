@@ -21,7 +21,7 @@ module.exports=React.createClass({
         this.setState({date:date});
 
         //读取数据库
-        db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([date]), function(list){
+        db.getList(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([date]), function(list){
             //重量各项值
             var state={
                 gas:0,

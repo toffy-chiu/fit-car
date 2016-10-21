@@ -19,5 +19,17 @@ module.exports={
             m = fix(x.getMinutes()),
             s = fix(x.getSeconds());
         return pattern.replace('yyyy', y).replace('MM', M).replace('dd', d).replace('HH', H).replace('mm', m).replace('ss', s);
+    },
+    /**
+     * 对象合并，这里只是简单地把对象2合并到对象1中去，并且只遍历一层
+     * @param obj1
+     * @param obj2
+     * @returns {*}
+     */
+    objectAssign:function(obj1, obj2){
+        for(var k in obj2){
+            obj1[k]=obj2[k];
+        }
+        return obj1;
     }
 };
