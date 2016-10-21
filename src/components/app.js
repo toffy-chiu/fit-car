@@ -21,12 +21,20 @@ var EditPage=function(location, cb){
     }, 'edit');
 };
 
-//明细页
+//当月明细
 var DetailPage=function(location, cb){
     require.ensure([], function(require){
         //cb(error, value);
         cb(null, require('./DetailPage'));
     }, 'detail');
+};
+
+//花销总览
+var OverviewPage=function(location, cb){
+    require.ensure([], function(require){
+        //cb(error, value);
+        cb(null, require('./OverviewPage'));
+    }, 'overview');
 };
 
 ReactDOM.render(
@@ -35,6 +43,7 @@ ReactDOM.render(
         <Route path="/index" getComponent={IndexPage}/>
         <Route path="/edit(/:id)" getComponent={EditPage}/>
         <Route path="/detail/:date" getComponent={DetailPage}/>
+        <Route path="/overview" getComponent={OverviewPage}/>
     </Router>
     ,
     document.getElementById('container')

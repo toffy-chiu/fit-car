@@ -1,4 +1,4 @@
-webpackJsonp([3],{
+webpackJsonp([4],{
 
 /***/ 293:
 /***/ function(module, exports, __webpack_require__) {
@@ -240,15 +240,15 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 298:
+/***/ 299:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React=__webpack_require__(3);
-	var Link=__webpack_require__(173).Link;
 	var UI = __webpack_require__(237),
 	    NavBar=UI.NavBar,
 	    Icon=UI.Icon,
 	    Group=UI.Group,
+	    List=UI.List,
 	    Container=UI.Container;
 
 	var db = __webpack_require__(294);
@@ -268,7 +268,7 @@ webpackJsonp([3],{
 	                return new Date(b.date).getTime()-new Date(a.date).getTime();
 	            });
 	            this.setState({list:list});
-	        }.bind(this), db.index_date, db.keyRange.atMonth([this.props.params.date]));
+	        }.bind(this));
 	    },
 	    //条目数据预处理
 	    getItem:function(item){
@@ -285,7 +285,7 @@ webpackJsonp([3],{
 	    },
 	    render:function(){
 	        var navBarProps = {
-	            title: '消费明细',
+	            title: '花销总览',
 	            amStyle:'primary',
 	            leftNav:[
 	                {
@@ -294,35 +294,62 @@ webpackJsonp([3],{
 	                }
 	            ]
 	        };
+	        //数据预处理，同月份的合并
+	        var list=[];
+	        if(this.state.list.length){
+	            var header='', month, types;
+	            this.state.list.forEach(function(o, i){
+	                //插入标题头
+	                month=o.date.slice(0, 7);
+	                if(header!=month){
+	                    header=month;
+
+	                    //插入第一个到倒数第二个月的项
+	                    for(var t in types){
+	                        types[t].amount+=' 元';
+	                        list.push(types[t]);
+	                    }
+
+	                    list.push({
+	                        title:header
+	                    });
+
+	                    //合并类型，初始化
+	                    types={};
+	                }
+
+	                if(!types[o.type]){
+	                    types[o.type]={
+	                        name:ct[o.type].name,
+	                        icon:ct[o.type].icon,
+	                        amount:0
+	                    }
+	                }
+	                types[o.type].amount+=+o.amount;
+
+	                //插入最后一项
+	                if(i==this.state.list.length-1){
+	                    for(var t in types){
+	                        types[t].amount+=' 元';
+	                        list.push(types[t]);
+	                    }
+	                }
+	            }.bind(this));
+	        }
 	        return (
 	            React.createElement(Container, null, 
 	                React.createElement(NavBar, React.__spread({},  navBarProps)), 
 	                React.createElement("div", {className: "item item-header"}, this.props.params.date), 
 	                React.createElement(Group, {noPadded: true, className: "margin-0"}, 
 	                    
-	                        this.state.list.length?(
-	                            React.createElement("ul", {className: "list"}, 
+	                        list.length?(
+	                            React.createElement(List, null, 
 	                                
-	                                    this.state.list.map(function(o){
-	                                        o=this.getItem(o);
-	                                        return (
-	                                            React.createElement("li", {key: o.id, className: "item item-linked"}, 
-	                                                React.createElement(Link, {to: '/edit/'+o.id, style: {display:'flex',alignItems:'center'}}, 
-	                                                    React.createElement("div", {className: "text-center", style: {lineHeight:1,borderRight:'1px solid #ccc',paddingRight:10,marginRight:10}}, 
-	                                                        React.createElement("strong", null, o.day), 
-	                                                        React.createElement("br", null), 
-	                                                        React.createElement("small", null, o.week)
-	                                                    ), 
-	                                                    React.createElement(Icon, {name: "info", style: {fontSize:'2em'}}), 
-	                                                    React.createElement("strong", {style: {marginLeft:'5px',verticalAlign:'text-top',flexGrow:1}}, o.name), 
-	                                                    React.createElement("div", {className: "fr"}, 
-	                                                        React.createElement("span", null, "￥", o.amount, " "), 
-	                                                        React.createElement(Icon, {name: "right-nav", style: {fontSize:'1em',color:'#ccc'}})
-	                                                    )
-	                                                )
-	                                            )
-	                                        )
-	                                    }.bind(this))
+	                                    list.map(function(o, i){
+	                                        return o.title
+	                                            ?React.createElement(List.Item, {key: i, role: "header"}, o.title)
+	                                            :React.createElement(List.Item, {key: i, title: React.createElement("span", null, React.createElement(Icon, {name: o.icon}), " ", o.name), after: o.amount})
+	                                    })
 	                                
 	                            )
 	                        ):(
@@ -335,7 +362,7 @@ webpackJsonp([3],{
 	    }
 	});
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/DetailPage.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/DetailPage.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/OverviewPage.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/OverviewPage.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }

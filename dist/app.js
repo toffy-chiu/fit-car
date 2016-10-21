@@ -28,11 +28,11 @@ webpackJsonp([0],[
 	var EditPage=function(location, cb){
 	    __webpack_require__.e/* nsure */(2, function(require){
 	        //cb(error, value);
-	        cb(null, __webpack_require__(295));
+	        cb(null, __webpack_require__(296));
 	    });
 	};
 
-	//明细页
+	//当月明细
 	var DetailPage=function(location, cb){
 	    __webpack_require__.e/* nsure */(3, function(require){
 	        //cb(error, value);
@@ -40,18 +40,27 @@ webpackJsonp([0],[
 	    });
 	};
 
+	//花销总览
+	var OverviewPage=function(location, cb){
+	    __webpack_require__.e/* nsure */(4, function(require){
+	        //cb(error, value);
+	        cb(null, __webpack_require__(299));
+	    });
+	};
+
 	ReactDOM.render(
 	    React.createElement(Router, {history: hashHistory}, 
 	        React.createElement(Route, {path: "/", getComponent: IndexPage}), 
 	        React.createElement(Route, {path: "/index", getComponent: IndexPage}), 
-	        React.createElement(Route, {path: "/edit", getComponent: EditPage}), 
-	        React.createElement(Route, {path: "/detail/:date", getComponent: DetailPage})
+	        React.createElement(Route, {path: "/edit(/:id)", getComponent: EditPage}), 
+	        React.createElement(Route, {path: "/detail/:date", getComponent: DetailPage}), 
+	        React.createElement(Route, {path: "/overview", getComponent: OverviewPage})
 	    )
 	    ,
 	    document.getElementById('container')
 	);
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/app.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/app.jsx"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/app.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/app.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }

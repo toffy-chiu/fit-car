@@ -133,14 +133,20 @@ IndexDB.prototype.get=function(storeName, id, callback){
  * @param keyRange IDBKeyRange 条件对象
  * @param callback
  */
-IndexDB.prototype.getList=function(storeName, indexArr, keyRange, callback){
+IndexDB.prototype.getList=function(storeName, callback, indexArr, keyRange){
     this.open(function(db){
         var transaction=db.transaction(storeName, 'readonly');
         var store=transaction.objectStore(storeName);
-        //指定索引，条件查询
-        var index = store.index("index_"+indexArr.join('_'));
-        //打开游标，进行遍历
-        var request=index.openCursor(keyRange);
+        var request;
+        //不传条件则查询全部
+        if(indexArr&&keyRange) {
+            //指定索引，条件查询
+            var index = store.index("index_" + indexArr.join('_'));
+            //打开游标，进行遍历
+            request = index.openCursor(keyRange);
+        }else{
+            request=store.openCursor();
+        }
         var list=[];
         request.onsuccess=function(e){
             var cursor=e.target.result;

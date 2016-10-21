@@ -1,9 +1,10 @@
 CACHE MANIFEST
-#version 1.4
+#version 1.5
 CACHE:
 app.js
 edit.chunk.js
 index.chunk.js
+overview.chunk.js
 vendor.js
 amazeui.touch.min.css
 app.css

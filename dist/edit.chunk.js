@@ -3,7 +3,8 @@ webpackJsonp([2],{
 /***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var VERSION = 9;
+	/* WEBPACK VAR INJECTION */(function(process) {var utils=__webpack_require__(295);
+	var VERSION = 9;
 	var DB_NAME='fit-car';
 
 	/**
@@ -81,20 +82,76 @@ webpackJsonp([2],{
 	};
 
 	/**
+	 * 保存
+	 * @param storeName
+	 * @param id 主键字段
+	 * @param data 保存的对象
+	 */
+	IndexDB.prototype.save=function(storeName, id, data){
+	    this.open(function(db){
+	        var transaction=db.transaction(storeName, 'readwrite');
+	        var store=transaction.objectStore(storeName);
+	        var request=store.get(+id);
+	        request.onsuccess=function(e){
+	            var row=e.target.result;
+	            utils.objectAssign(row, data);
+	            store.put(row, +id);
+	        };
+	    });
+	};
+
+	/**
+	 * 保存
+	 * @param storeName
+	 * @param id 主键字段
+	 */
+	IndexDB.prototype.del=function(storeName, id){
+	    this.open(function(db){
+	        var transaction=db.transaction(storeName, 'readwrite');
+	        var store=transaction.objectStore(storeName);
+	        store.delete(+id);
+	    });
+	};
+
+	/**
+	 * 获取指定条件的数据列表
+	 * @param storeName
+	 * @param id 主键字段
+	 * @param callback
+	 */
+	IndexDB.prototype.get=function(storeName, id, callback){
+	    this.open(function(db){
+	        var transaction=db.transaction(storeName, 'readonly');
+	        var store=transaction.objectStore(storeName);
+	        var request=store.get(+id);
+	        request.onsuccess=function(e){
+	            var row=e.target.result;
+	            callback(row);
+	        };
+	    });
+	};
+
+	/**
 	 * 获取指定条件的数据列表
 	 * @param storeName
 	 * @param indexArr array 条件字段名
 	 * @param keyRange IDBKeyRange 条件对象
 	 * @param callback
 	 */
-	IndexDB.prototype.get=function(storeName, indexArr, keyRange, callback){
+	IndexDB.prototype.getList=function(storeName, callback, indexArr, keyRange){
 	    this.open(function(db){
 	        var transaction=db.transaction(storeName, 'readonly');
 	        var store=transaction.objectStore(storeName);
-	        //指定索引，条件查询
-	        var index = store.index("index_"+indexArr.join('_'));
-	        //打开游标，进行遍历
-	        var request=index.openCursor(keyRange);
+	        var request;
+	        //不传条件则查询全部
+	        if(indexArr&&keyRange) {
+	            //指定索引，条件查询
+	            var index = store.index("index_" + indexArr.join('_'));
+	            //打开游标，进行遍历
+	            request = index.openCursor(keyRange);
+	        }else{
+	            request=store.openCursor();
+	        }
 	        var list=[];
 	        request.onsuccess=function(e){
 	            var cursor=e.target.result;
@@ -123,65 +180,6 @@ webpackJsonp([2],{
 /***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var React=__webpack_require__(3);
-	var UI = __webpack_require__(237),
-	    Field=UI.Field,
-	    Button=UI.Button,
-	    NavBar=UI.NavBar,
-	    Group=UI.Group,
-	    Container=UI.Container;
-
-	var utils = __webpack_require__(296);
-	var ItemRows = __webpack_require__(297);
-	var db = __webpack_require__(294);
-	module.exports=React.createClass({displayName: "module.exports",
-	    handleAddRecord:function(e){
-	        e.preventDefault();
-	        var data={
-	            date:this.refs.date.getValue(),
-	            type:this.refs.itemRows.getType(),
-	            amount:this.refs.amount.getValue()
-	        };
-	        if(data.amount>0) {
-	            db.add(db.TABLE_CONSUMPTION, data);
-	            location.hash = '/index';
-	        }else{
-	            alert('消费金额无效');
-	        }
-	    },
-	    render:function(){
-	        var navBarProps = {
-	            title: '新增消费记录',
-	            amStyle:'primary',
-	            leftNav:[
-	                {
-	                    icon:'left-nav',
-	                    href:'#/index'
-	                }
-	            ]
-	        };
-	        return (
-	            React.createElement(Container, {fill: true, direction: "column"}, 
-	                React.createElement(NavBar, React.__spread({},  navBarProps)), 
-	                React.createElement(Field, {ref: "date", type: "date", labelBefore: "消费时间：", defaultValue: utils.dateFormat(new Date(), 'yyyy-MM-dd')}), 
-	                React.createElement(ItemRows, {ref: "itemRows"}), 
-	                React.createElement(Field, {ref: "amount", type: "number", labelBefore: "消费金额：", labelAfter: "元", min: "0", placeholder: "请输入消费金额"}), 
-	                React.createElement(Group, {className: "margin-0"}, 
-	                    React.createElement(Button, {onClick: this.handleAddRecord, amStyle: "primary", block: true}, "新增记录")
-	                )
-	            )
-	        )
-	    }
-	});
-
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/EditPage.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/EditPage.jsx"); } } })();
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ },
-
-/***/ 296:
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(process) {module.exports={
 	    /**
 	     * 日期格式化
@@ -203,10 +201,149 @@ webpackJsonp([2],{
 	            m = fix(x.getMinutes()),
 	            s = fix(x.getSeconds());
 	        return pattern.replace('yyyy', y).replace('MM', M).replace('dd', d).replace('HH', H).replace('mm', m).replace('ss', s);
+	    },
+	    /**
+	     * 对象合并，这里只是简单地把对象2合并到对象1中去，并且只遍历一层
+	     * @param obj1
+	     * @param obj2
+	     * @returns {*}
+	     */
+	    objectAssign:function(obj1, obj2){
+	        for(var k in obj2){
+	            obj1[k]=obj2[k];
+	        }
+	        return obj1;
 	    }
 	};
 
 	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/lib/utils.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/lib/utils.js"); } } })();
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ },
+
+/***/ 296:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var React=__webpack_require__(3);
+	var UI = __webpack_require__(237),
+	    Field=UI.Field,
+	    Button=UI.Button,
+	    NavBar=UI.NavBar,
+	    Group=UI.Group,
+	    Modal=UI.Modal,
+	    Container=UI.Container;
+
+	var utils = __webpack_require__(295);
+	var ItemRows = __webpack_require__(297);
+	var db = __webpack_require__(294);
+	module.exports=React.createClass({displayName: "module.exports",
+	    getInitialState:function(){
+	        return {
+	            isNew:true, //当前页面是否新增状态
+	            showModal:false,
+	            id:0,
+	            type:null,
+	            date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
+	            amount:''
+	        }
+	    },
+	    componentDidMount:function(){
+	        var id=this.props.params.id;
+	        //如果是修改信息则赋值
+	        if(id) {
+	            this.setState({isNew:false});
+	            //加载编辑信息
+	            db.get(db.TABLE_CONSUMPTION, id, function (info) {
+	                info.id = id;
+	                this.setState(info);
+	            }.bind(this));
+	        }
+	    },
+	    getData:function(){
+	        return {
+	            date:this.refs.date.getValue(),
+	            type:this.refs.itemRows.getValue(),
+	            amount:this.refs.amount.getValue()
+	        };
+	    },
+	    /**
+	     * 输入组件值变化时
+	     */
+	    handleFieldChange:function(){
+	        //设置各组件的值
+	        this.setState(this.getData());
+	    },
+	    handleAddRecord:function(e){
+	        e.preventDefault();
+	        var data=this.getData();
+	        if(data.amount>0) {
+	            db.add(db.TABLE_CONSUMPTION, data);
+	            location.hash = '/index';
+	        }else{
+	            alert('消费金额无效');
+	        }
+	    },
+	    handleSaveRecord:function(e){
+	        e.preventDefault();
+	        var data=this.getData();
+	        if(data.amount>0) {
+	            db.save(db.TABLE_CONSUMPTION, this.state.id, data);
+	            location.hash = '/detail/'+data.date.slice(0, 7);
+	        }else{
+	            alert('消费金额无效');
+	        }
+	    },
+	    handleDelRecord:function(){
+	        this.setState({showModal:true});
+	    },
+	    /**
+	     * 删除确认
+	     * @param isOK
+	     */
+	    handleAction:function(isOK){
+	        if(isOK){
+	            //删除该记录
+	            db.del(db.TABLE_CONSUMPTION, this.state.id);
+	            location.hash = '/index';
+	        }
+	        this.setState({showModal:false});
+	    },
+	    render:function(){
+	        var navBarProps = {
+	            title: '新增消费记录',
+	            amStyle:'primary',
+	            leftNav:[
+	                {
+	                    icon:'left-nav',
+	                    href:'javascript:history.back()'
+	                }
+	            ]
+	        };
+	        return (
+	            React.createElement(Container, {fill: true, direction: "column"}, 
+	                React.createElement(NavBar, React.__spread({},  navBarProps)), 
+	                React.createElement(Field, {ref: "date", type: "date", value: this.state.date, onChange: this.handleFieldChange, labelBefore: "消费时间："}), 
+	                React.createElement(ItemRows, {ref: "itemRows", value: this.state.type, onChange: this.handleFieldChange}), 
+	                React.createElement(Field, {ref: "amount", type: "number", value: this.state.amount, onChange: this.handleFieldChange, labelBefore: "消费金额：", labelAfter: "元", min: "0", placeholder: "请输入消费金额"}), 
+	                
+	                    this.state.isNew?(
+	                        React.createElement(Group, {className: "margin-0"}, 
+	                            React.createElement(Button, {onClick: this.handleAddRecord, amStyle: "primary", block: true}, "新增记录")
+	                        )
+	                    ):(
+	                        React.createElement(Group, {className: "margin-0 text-center"}, 
+	                            React.createElement(Button, {onClick: this.handleDelRecord, amStyle: "alert"}, "删除记录"), 
+	                            React.createElement(Button, {onClick: this.handleSaveRecord, amStyle: "secondary"}, "保存修改")
+	                        )
+	                    ), 
+	                
+	                React.createElement(Modal, {title: "确定删除吗？", role: "confirm", isOpen: this.state.showModal, onAction: this.handleAction})
+	            )
+	        )
+	    }
+	});
+
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/EditPage.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/EditPage.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -223,19 +360,17 @@ webpackJsonp([2],{
 	    Group=UI.Group;
 
 	module.exports = React.createClass({displayName: "module.exports",
-	    getInitialState:function(){
-	        return {
-	            selected:'gas'
-	        };
-	    },
-	    componentDidMount:function(){
+	    _value:null,    //自定义属性
+	    propTypes:{
+	        value:React.PropTypes.oneOf(['gas', 'park', 'wash', 'maintain', 'fix', 'breach', 'road', 'others'])
 	    },
 	    handleClick:function(e){
 	        e.preventDefault();
-	        this.setState({selected:e.currentTarget.getAttribute('data-key')});
+	        this._value=e.currentTarget.getAttribute('data-key');
+	        this.props.onChange(e);
 	    },
-	    getType:function(){
-	        return this.state.selected;
+	    getValue:function(){
+	        return this._value;
 	    },
 	    /**
 	     * 获取每一项的HTML
@@ -264,7 +399,7 @@ webpackJsonp([2],{
 	        };
 	        return (
 	            React.createElement(Col, null, 
-	                React.createElement(Badge, {style: {width:'2.5rem',height:'2.5rem',lineHeight:2.9}, onTouchStart: this.handleClick, onClick: this.handleClick, "data-key": itemName, amStyle: this.state.selected==itemName?'secondary':'default', rounded: true}, 
+	                React.createElement(Badge, {style: {width:'2.5rem',height:'2.5rem',lineHeight:2.9}, onTouchStart: this.handleClick, onClick: this.handleClick, "data-key": itemName, amStyle: this.props.value==itemName?'secondary':'default', rounded: true}, 
 	                    React.createElement(Icon, {name: itemObj[itemName].icon})
 	                ), 
 	                React.createElement("div", null, itemObj[itemName].name)
@@ -272,6 +407,7 @@ webpackJsonp([2],{
 	        )
 	    },
 	    render: function() {
+	        this._value=this.props.value;
 	        return (
 	            React.createElement(Group, {noPadded: true, className: "margin-0 text-center"}, 
 	                React.createElement(Grid, {avg: 4, className: "itemRows"}, 
@@ -289,7 +425,7 @@ webpackJsonp([2],{
 	    }
 	});
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/ItemRows.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/ItemRows.jsx"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/ItemRows.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/ItemRows.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }

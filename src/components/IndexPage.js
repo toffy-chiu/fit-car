@@ -21,7 +21,7 @@ module.exports=React.createClass({
         this.setState({date:date});
 
         //读取数据库
-        db.getList(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([date]), function(list){
+        db.getList(db.TABLE_CONSUMPTION, function(list){
             //重量各项值
             var state={
                 gas:0,
@@ -39,7 +39,7 @@ module.exports=React.createClass({
             });
             //设置当前状态（通过属性值更新子组件）
             this.setState({tableValue:state});
-        }.bind(this));
+        }.bind(this), db.index_date, db.keyRange.atMonth([date]));
     },
     render:function(){
         var navBarProps = {
@@ -60,7 +60,8 @@ module.exports=React.createClass({
                 </div>
                 <TabBar amStyle="primary">
                     <TabBar.Item title="记一笔" icon="plus" href="#/edit" />
-                    <TabBar.Item title="查看明细" icon="list" href={'#/detail/'+this.state.date} />
+                    <TabBar.Item title="当月明细" icon="list" href={'#/detail/'+this.state.date} />
+                    <TabBar.Item title="花销总览" icon="pages" href={'#/overview'} />
                 </TabBar>
             </Container>
         )

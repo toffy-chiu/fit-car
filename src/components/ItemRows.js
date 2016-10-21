@@ -7,20 +7,17 @@ var UI = require('amazeui-touch'),
     Group=UI.Group;
 
 module.exports = React.createClass({
+    _value:null,    //自定义属性
     propTypes:{
         value:React.PropTypes.oneOf(['gas', 'park', 'wash', 'maintain', 'fix', 'breach', 'road', 'others'])
     },
-    getInitialState:function(){
-        return {
-            selected:this.props.value
-        };
-    },
     handleClick:function(e){
         e.preventDefault();
-        this.setState({selected:e.currentTarget.getAttribute('data-key')});
+        this._value=e.currentTarget.getAttribute('data-key');
+        this.props.onChange(e);
     },
-    getType:function(){
-        return this.state.selected;
+    getValue:function(){
+        return this._value;
     },
     /**
      * 获取每一项的HTML
@@ -49,7 +46,7 @@ module.exports = React.createClass({
         };
         return (
             <Col>
-                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:2.9}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.state.selected==itemName?'secondary':'default'} rounded>
+                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:2.9}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.props.value==itemName?'secondary':'default'} rounded>
                     <Icon name={itemObj[itemName].icon} />
                 </Badge>
                 <div>{itemObj[itemName].name}</div>
@@ -57,6 +54,7 @@ module.exports = React.createClass({
         )
     },
     render: function() {
+        this._value=this.props.value;
         return (
             <Group noPadded className="margin-0 text-center">
                 <Grid avg={4} className="itemRows">

@@ -34,21 +34,21 @@ module.exports = {
     output: {
         publicPath:isProd ? './' : '/', //给require.ensure用；webpack-dev-server的网站名
         path: path.resolve(__dirname, './dist'), //js的发布路径
-        filename: isProd ? '[name].[chunkhash:8].js' : '[name].js',
-        chunkFilename:isProd ? '[name].chunk.[chunkhash:8].js' : '[name].chunk.js'
+        filename: !isProd ? '[name].[chunkhash:8].js' : '[name].js',
+        chunkFilename:!isProd ? '[name].chunk.[chunkhash:8].js' : '[name].chunk.js'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js']
     },
     module: {
         loaders: [
-            {test: /\.jsx?$/, loader: 'react-hot/webpack!jsx?harmony', exclude:/node_modules/}
+            {test: /\.js$/, loader: 'react-hot/webpack!jsx?harmony', include:path.join(__dirname, './src')}
         ]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-        new ExtractTextPlugin(isProd ? '[name].[chunkhash:8].css' : '[name].css'),
+        new ExtractTextPlugin(!isProd ? '[name].[chunkhash:8].css' : '[name].css'),
         new HtmlWebpackPlugin({
             title:'车辆花销管理',
             template:isProd?'./src/index.html':'./src/index.debug.html',

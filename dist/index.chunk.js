@@ -26,7 +26,7 @@ webpackJsonp([1],{
 	        this.setState({date:date});
 
 	        //读取数据库
-	        db.get(db.TABLE_CONSUMPTION, db.index_date, db.keyRange.atMonth([date]), function(list){
+	        db.getList(db.TABLE_CONSUMPTION, function(list){
 	            //重量各项值
 	            var state={
 	                gas:0,
@@ -44,7 +44,7 @@ webpackJsonp([1],{
 	            });
 	            //设置当前状态（通过属性值更新子组件）
 	            this.setState({tableValue:state});
-	        }.bind(this));
+	        }.bind(this), db.index_date, db.keyRange.atMonth([date]));
 	    },
 	    render:function(){
 	        var navBarProps = {
@@ -65,14 +65,15 @@ webpackJsonp([1],{
 	                ), 
 	                React.createElement(TabBar, {amStyle: "primary"}, 
 	                    React.createElement(TabBar.Item, {title: "记一笔", icon: "plus", href: "#/edit"}), 
-	                    React.createElement(TabBar.Item, {title: "查看明细", icon: "list", href: '#/detail/'+this.state.date})
+	                    React.createElement(TabBar.Item, {title: "当月明细", icon: "list", href: '#/detail/'+this.state.date}), 
+	                    React.createElement(TabBar.Item, {title: "花销总览", icon: "pages", href: '#/overview'})
 	                )
 	            )
 	        )
 	    }
 	});
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/IndexPage.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/IndexPage.jsx"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/IndexPage.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/IndexPage.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -132,7 +133,7 @@ webpackJsonp([1],{
 	    }
 	});
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/TopDate.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/TopDate.jsx"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/TopDate.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/TopDate.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -194,7 +195,7 @@ webpackJsonp([1],{
 	    }
 	});
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/ItemTable.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/ItemTable.jsx"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/components/ItemTable.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/components/ItemTable.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -221,7 +222,8 @@ webpackJsonp([1],{
 /***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var VERSION = 9;
+	/* WEBPACK VAR INJECTION */(function(process) {var utils=__webpack_require__(295);
+	var VERSION = 9;
 	var DB_NAME='fit-car';
 
 	/**
@@ -299,20 +301,76 @@ webpackJsonp([1],{
 	};
 
 	/**
+	 * 保存
+	 * @param storeName
+	 * @param id 主键字段
+	 * @param data 保存的对象
+	 */
+	IndexDB.prototype.save=function(storeName, id, data){
+	    this.open(function(db){
+	        var transaction=db.transaction(storeName, 'readwrite');
+	        var store=transaction.objectStore(storeName);
+	        var request=store.get(+id);
+	        request.onsuccess=function(e){
+	            var row=e.target.result;
+	            utils.objectAssign(row, data);
+	            store.put(row, +id);
+	        };
+	    });
+	};
+
+	/**
+	 * 保存
+	 * @param storeName
+	 * @param id 主键字段
+	 */
+	IndexDB.prototype.del=function(storeName, id){
+	    this.open(function(db){
+	        var transaction=db.transaction(storeName, 'readwrite');
+	        var store=transaction.objectStore(storeName);
+	        store.delete(+id);
+	    });
+	};
+
+	/**
+	 * 获取指定条件的数据列表
+	 * @param storeName
+	 * @param id 主键字段
+	 * @param callback
+	 */
+	IndexDB.prototype.get=function(storeName, id, callback){
+	    this.open(function(db){
+	        var transaction=db.transaction(storeName, 'readonly');
+	        var store=transaction.objectStore(storeName);
+	        var request=store.get(+id);
+	        request.onsuccess=function(e){
+	            var row=e.target.result;
+	            callback(row);
+	        };
+	    });
+	};
+
+	/**
 	 * 获取指定条件的数据列表
 	 * @param storeName
 	 * @param indexArr array 条件字段名
 	 * @param keyRange IDBKeyRange 条件对象
 	 * @param callback
 	 */
-	IndexDB.prototype.get=function(storeName, indexArr, keyRange, callback){
+	IndexDB.prototype.getList=function(storeName, callback, indexArr, keyRange){
 	    this.open(function(db){
 	        var transaction=db.transaction(storeName, 'readonly');
 	        var store=transaction.objectStore(storeName);
-	        //指定索引，条件查询
-	        var index = store.index("index_"+indexArr.join('_'));
-	        //打开游标，进行遍历
-	        var request=index.openCursor(keyRange);
+	        var request;
+	        //不传条件则查询全部
+	        if(indexArr&&keyRange) {
+	            //指定索引，条件查询
+	            var index = store.index("index_" + indexArr.join('_'));
+	            //打开游标，进行遍历
+	            request = index.openCursor(keyRange);
+	        }else{
+	            request=store.openCursor();
+	        }
 	        var list=[];
 	        request.onsuccess=function(e){
 	            var cursor=e.target.result;
@@ -334,6 +392,50 @@ webpackJsonp([1],{
 	module.exports=new IndexDB();
 
 	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/lib/IndexDB.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/lib/IndexDB.js"); } } })();
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ },
+
+/***/ 295:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {module.exports={
+	    /**
+	     * 日期格式化
+	     * @param date
+	     * @param pattern
+	     * @returns {*}
+	     */
+	    dateFormat:function(date, pattern){
+	        function fix(t) {
+	            if (t < 10)
+	                t = '0' + t;
+	            return t;
+	        }
+	        var x=date;
+	        var y = x.getFullYear(),
+	            M = fix(x.getMonth() + 1),
+	            d = fix(x.getDate()),
+	            H = fix(x.getHours()),
+	            m = fix(x.getMinutes()),
+	            s = fix(x.getSeconds());
+	        return pattern.replace('yyyy', y).replace('MM', M).replace('dd', d).replace('HH', H).replace('mm', m).replace('ss', s);
+	    },
+	    /**
+	     * 对象合并，这里只是简单地把对象2合并到对象1中去，并且只遍历一层
+	     * @param obj1
+	     * @param obj2
+	     * @returns {*}
+	     */
+	    objectAssign:function(obj1, obj2){
+	        for(var k in obj2){
+	            obj1[k]=obj2[k];
+	        }
+	        return obj1;
+	    }
+	};
+
+	 ;(function register() { /* react-hot-loader/webpack */ if (process.env.NODE_ENV !== 'production') { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "/home/toffy/web/fit-car/src/lib/utils.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "/home/toffy/web/fit-car/src/lib/utils.js"); } } })();
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }

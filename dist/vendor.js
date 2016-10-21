@@ -88,7 +88,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5762a207ceb64804c221"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d9ba512a6b0abc364d05"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -562,7 +562,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		4:0
+/******/ 		5:0
 /******/ 	};
 
 /******/ 	// The require function
@@ -611,7 +611,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 
-/******/ 			script.src = __webpack_require__.p + "" + ({"0":"app","1":"index","2":"edit","3":"detail"}[chunkId]||chunkId) + ".chunk.js";
+/******/ 			script.src = __webpack_require__.p + "" + ({"0":"app","1":"index","2":"edit","3":"detail","4":"overview"}[chunkId]||chunkId) + ".chunk.js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};

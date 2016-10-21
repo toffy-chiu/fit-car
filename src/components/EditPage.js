@@ -16,8 +16,8 @@ module.exports=React.createClass({
             isNew:true, //当前页面是否新增状态
             showModal:false,
             id:0,
-            date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
             type:null,
+            date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
             amount:''
         }
     },
@@ -26,20 +26,30 @@ module.exports=React.createClass({
         //如果是修改信息则赋值
         if(id) {
             this.setState({isNew:false});
+            //加载编辑信息
             db.get(db.TABLE_CONSUMPTION, id, function (info) {
                 info.id = id;
-                this.refs.itemRows.setState({selected:info.type});
                 this.setState(info);
             }.bind(this));
         }
     },
-    handleAddRecord:function(e){
-        e.preventDefault();
-        var data={
+    getData:function(){
+        return {
             date:this.refs.date.getValue(),
-            type:this.refs.itemRows.getType(),
+            type:this.refs.itemRows.getValue(),
             amount:this.refs.amount.getValue()
         };
+    },
+    /**
+     * 输入组件值变化时
+     */
+    handleFieldChange:function(){
+        //设置各组件的值
+        this.setState(this.getData());
+    },
+    handleAddRecord:function(e){
+        e.preventDefault();
+        var data=this.getData();
         if(data.amount>0) {
             db.add(db.TABLE_CONSUMPTION, data);
             location.hash = '/index';
@@ -49,14 +59,10 @@ module.exports=React.createClass({
     },
     handleSaveRecord:function(e){
         e.preventDefault();
-        var data={
-            date:this.refs.date.getValue(),
-            type:this.refs.itemRows.getType(),
-            amount:this.refs.amount.getValue()
-        };
+        var data=this.getData();
         if(data.amount>0) {
             db.save(db.TABLE_CONSUMPTION, this.state.id, data);
-            location.hash = '/index';
+            location.hash = '/detail/'+data.date.slice(0, 7);
         }else{
             alert('消费金额无效');
         }
@@ -83,16 +89,16 @@ module.exports=React.createClass({
             leftNav:[
                 {
                     icon:'left-nav',
-                    href:'#/index'
+                    href:'javascript:history.back()'
                 }
             ]
         };
         return (
             <Container fill direction="column">
                 <NavBar {...navBarProps} />
-                <Field ref="date" type="date" value={this.state.date} labelBefore="消费时间：" />
-                <ItemRows ref="itemRows" value={this.state.type} />
-                <Field ref="amount" type="number" value={this.state.amount} labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
+                <Field ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange} labelBefore="消费时间：" />
+                <ItemRows ref="itemRows" value={this.state.type} onChange={this.handleFieldChange} />
+                <Field ref="amount" type="number" value={this.state.amount} onChange={this.handleFieldChange} labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
                 {
                     this.state.isNew?(
                         <Group className="margin-0">
