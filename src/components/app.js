@@ -37,6 +37,14 @@ var OverviewPage=function(location, cb){
     }, 'overview');
 };
 
+//设置
+var SettingPage=function(location, cb){
+    require.ensure([], function(require){
+        //cb(error, value);
+        cb(null, require('./SettingPage'));
+    }, 'setting');
+};
+
 ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/" getComponent={IndexPage}/>
@@ -44,6 +52,7 @@ ReactDOM.render(
         <Route path="/edit(/:id)" getComponent={EditPage}/>
         <Route path="/detail/:date" getComponent={DetailPage}/>
         <Route path="/overview" getComponent={OverviewPage}/>
+        <Route path="/setting" getComponent={SettingPage}/>
     </Router>
     ,
     document.getElementById('container')

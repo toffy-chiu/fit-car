@@ -103,13 +103,17 @@ webpackJsonp([2],{
 	/**
 	 * 保存
 	 * @param storeName
-	 * @param id 主键字段
+	 * @param id 主键字段,不传则为删除全部
 	 */
 	IndexDB.prototype.del=function(storeName, id){
 	    this.open(function(db){
 	        var transaction=db.transaction(storeName, 'readwrite');
 	        var store=transaction.objectStore(storeName);
-	        store.delete(+id);
+	        if(id) {
+	            store.delete(+id);
+	        }else{
+	            store.clear();
+	        }
 	    });
 	};
 
@@ -231,6 +235,8 @@ webpackJsonp([2],{
 	    NavBar=UI.NavBar,
 	    Group=UI.Group,
 	    Modal=UI.Modal,
+	    View=UI.View,
+	    Loader=UI.Loader,
 	    Container=UI.Container;
 
 	var utils = __webpack_require__(295);
@@ -239,24 +245,31 @@ webpackJsonp([2],{
 	module.exports=React.createClass({displayName: "module.exports",
 	    getInitialState:function(){
 	        return {
+	            loading:true,
 	            isNew:true, //当前页面是否新增状态
-	            showModal:false,
-	            id:0,
-	            type:null,
-	            date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
-	            amount:''
+	            showConfirm:false,
+	            id:0
 	        }
 	    },
 	    componentDidMount:function(){
 	        var id=this.props.params.id;
-	        //如果是修改信息则赋值
+	        //通过ID来判断是增加还是编辑
 	        if(id) {
 	            this.setState({isNew:false});
 	            //加载编辑信息
 	            db.get(db.TABLE_CONSUMPTION, id, function (info) {
+	                info.loading=false;
 	                info.id = id;
 	                this.setState(info);
 	            }.bind(this));
+	        }else{
+	            //设置默认值
+	            this.setState({
+	                loading:false,
+	                type:'gas',
+	                date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
+	                amount:''
+	            });
 	        }
 	    },
 	    getData:function(){
@@ -294,7 +307,7 @@ webpackJsonp([2],{
 	        }
 	    },
 	    handleDelRecord:function(){
-	        this.setState({showModal:true});
+	        this.setState({showConfirm:true});
 	    },
 	    /**
 	     * 删除确认
@@ -306,40 +319,59 @@ webpackJsonp([2],{
 	            db.del(db.TABLE_CONSUMPTION, this.state.id);
 	            location.hash = '/index';
 	        }
-	        this.setState({showModal:false});
+	        this.setState({showConfirm:false});
 	    },
 	    render:function(){
-	        var navBarProps = {
-	            title: '新增消费记录',
-	            amStyle:'primary',
-	            leftNav:[
-	                {
-	                    icon:'left-nav',
-	                    href:'javascript:history.back()'
-	                }
-	            ]
-	        };
-	        return (
-	            React.createElement(Container, {fill: true, direction: "column"}, 
-	                React.createElement(NavBar, React.__spread({},  navBarProps)), 
-	                React.createElement(Field, {ref: "date", type: "date", value: this.state.date, onChange: this.handleFieldChange, labelBefore: "消费时间："}), 
-	                React.createElement(ItemRows, {ref: "itemRows", value: this.state.type, onChange: this.handleFieldChange}), 
-	                React.createElement(Field, {ref: "amount", type: "number", value: this.state.amount, onChange: this.handleFieldChange, labelBefore: "消费金额：", labelAfter: "元", min: "0", placeholder: "请输入消费金额"}), 
-	                
-	                    this.state.isNew?(
-	                        React.createElement(Group, {className: "margin-0"}, 
-	                            React.createElement(Button, {onClick: this.handleAddRecord, amStyle: "primary", block: true}, "新增记录")
+	        if(this.state.loading){
+	            return React.createElement(Loader, {rounded: true, amStyle: "primary"})
+	        }else {
+	            var navBarProps = {
+	                title: '新增消费记录',
+	                amStyle: 'primary',
+	                leftNav: [
+	                    {
+	                        icon: 'left-nav',
+	                        href: 'javascript:history.back()'
+	                    }
+	                ]
+	            };
+	            return (
+	                React.createElement(Container, {fill: true, direction: "column", transition: "sfl"}, 
+	                    React.createElement(NavBar, React.__spread({},  navBarProps)), 
+	                    React.createElement("div", {className: "views"}, 
+	                        React.createElement(View, null, 
+	                            React.createElement(Container, {fill: true, scrollable: true}, 
+	                                React.createElement(Field, {ref: "date", type: "date", value: this.state.date, onChange: this.handleFieldChange, 
+	                                       labelBefore: "消费时间："}), 
+	                                React.createElement(ItemRows, {ref: "itemRows", value: this.state.type, onChange: this.handleFieldChange}), 
+	                                React.createElement(Field, {
+	                                    ref: "amount", 
+	                                    type: "number", 
+	                                    value: this.state.amount, 
+	                                    onChange: this.handleFieldChange, 
+	                                    labelBefore: "消费金额：", 
+	                                    labelAfter: "元", 
+	                                    min: "0", 
+	                                    placeholder: "请输入消费金额"}), 
+	                                
+	                                    this.state.isNew ? (
+	                                        React.createElement(Group, {className: "margin-0"}, 
+	                                            React.createElement(Button, {type: "submit", onClick: this.handleAddRecord, amStyle: "primary", block: true}, "新增记录")
+	                                        )
+	                                    ) : (
+	                                        React.createElement(Group, {className: "margin-0 text-center"}, 
+	                                            React.createElement(Button, {onClick: this.handleDelRecord, amStyle: "alert"}, "删除记录"), 
+	                                            React.createElement(Button, {onClick: this.handleSaveRecord, amStyle: "secondary"}, "保存修改")
+	                                        )
+	                                    ), 
+	                                
+	                                React.createElement(Modal, {title: "确定删除吗？", role: "confirm", isOpen: this.state.showConfirm, onAction: this.handleAction})
+	                            )
 	                        )
-	                    ):(
-	                        React.createElement(Group, {className: "margin-0 text-center"}, 
-	                            React.createElement(Button, {onClick: this.handleDelRecord, amStyle: "alert"}, "删除记录"), 
-	                            React.createElement(Button, {onClick: this.handleSaveRecord, amStyle: "secondary"}, "保存修改")
-	                        )
-	                    ), 
-	                
-	                React.createElement(Modal, {title: "确定删除吗？", role: "confirm", isOpen: this.state.showModal, onAction: this.handleAction})
+	                    )
+	                )
 	            )
-	        )
+	        }
 	    }
 	});
 

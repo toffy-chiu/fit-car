@@ -4,6 +4,7 @@ var UI = require('amazeui-touch'),
     Icon=UI.Icon,
     Group=UI.Group,
     List=UI.List,
+    View=UI.View,
     Container=UI.Container;
 
 var db = require('../lib/IndexDB');
@@ -39,18 +40,9 @@ module.exports=React.createClass({
         };
     },
     render:function(){
-        var navBarProps = {
-            title: '花销总览',
-            amStyle:'primary',
-            leftNav:[
-                {
-                    icon:'left-nav',
-                    href:'#/index'
-                }
-            ]
-        };
         //数据预处理，同月份的合并
         var list=[];
+        var total=0;
         if(this.state.list.length){
             var header='', month, types;
             this.state.list.forEach(function(o, i){
@@ -81,6 +73,7 @@ module.exports=React.createClass({
                     }
                 }
                 types[o.type].amount+=+o.amount;
+                total+=+o.amount;
 
                 //插入最后一项
                 if(i==this.state.list.length-1){
@@ -91,27 +84,42 @@ module.exports=React.createClass({
                 }
             }.bind(this));
         }
+        var navBarProps = {
+            title: '花销总览（共 '+total+' 元）',
+            amStyle:'primary',
+            leftNav:[
+                {
+                    icon:'left-nav',
+                    href:'#/index'
+                }
+            ]
+        };
         return (
-            <Container>
+            <Container fill direction="column">
                 <NavBar {...navBarProps} />
-                <div className="item item-header">{this.props.params.date}</div>
-                <Group noPadded className="margin-0">
-                    {
-                        list.length?(
-                            <List>
+                <div className="views">
+                    <View>
+                        <Container fill scrollable>
+                            <Group noPadded className="margin-0">
                                 {
-                                    list.map(function(o, i){
-                                        return o.title
-                                            ?<List.Item key={i} role="header">{o.title}</List.Item>
-                                            :<List.Item key={i} title={<span><Icon name={o.icon}/> {o.name}</span>} after={o.amount}/>
-                                    })
+                                    list.length?(
+                                        <List>
+                                            {
+                                                list.map(function(o, i){
+                                                    return o.title
+                                                        ?<List.Item key={i} role="header">{o.title}</List.Item>
+                                                        :<List.Item key={i} title={<span><Icon name={o.icon}/> {o.name}</span>} after={o.amount}/>
+                                                })
+                                            }
+                                        </List>
+                                    ):(
+                                        <h3 className="text-center padding-v-lg"><Icon name="info" />没有数据！</h3>
+                                    )
                                 }
-                            </List>
-                        ):(
-                            <h3 className="text-center padding-v-lg"><Icon name="info" />没有数据！</h3>
-                        )
-                    }
-                </Group>
+                            </Group>
+                        </Container>
+                    </View>
+                </div>
             </Container>
         )
     }

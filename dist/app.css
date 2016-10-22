@@ -1,3 +1,12 @@
+.container-scrollable{
+    overflow-y: auto;
+}
+.text-truncate {
+    word-wrap: normal; /* for IE */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 .topDate{
     text-align: center;
     border-bottom:1px solid #CCCCCC;

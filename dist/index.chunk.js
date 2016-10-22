@@ -49,12 +49,7 @@ webpackJsonp([1],{
 	    render:function(){
 	        var navBarProps = {
 	            title: '车消费记录',
-	            amStyle:'primary',
-	            rightNav:[
-	                {
-	                    icon:'refresh'
-	                }
-	            ]
+	            amStyle:'primary'
 	        };
 	        return (
 	            React.createElement(Container, {fill: true, direction: "column"}, 
@@ -63,10 +58,11 @@ webpackJsonp([1],{
 	                    React.createElement(TopDate, {onDateChange: this.topDateChange}), 
 	                    React.createElement(ItemTable, {value: this.state.tableValue})
 	                ), 
-	                React.createElement(TabBar, {amStyle: "primary"}, 
+	                React.createElement(TabBar, {amStyle: "primary", className: "padding-h-0"}, 
 	                    React.createElement(TabBar.Item, {title: "记一笔", icon: "plus", href: "#/edit"}), 
 	                    React.createElement(TabBar.Item, {title: "当月明细", icon: "list", href: '#/detail/'+this.state.date}), 
-	                    React.createElement(TabBar.Item, {title: "花销总览", icon: "pages", href: '#/overview'})
+	                    React.createElement(TabBar.Item, {title: "花销总览", icon: "pages", href: '#/overview'}), 
+	                    React.createElement(TabBar.Item, {title: "设置", icon: "gear", href: '#/setting'})
 	                )
 	            )
 	        )
@@ -322,13 +318,17 @@ webpackJsonp([1],{
 	/**
 	 * 保存
 	 * @param storeName
-	 * @param id 主键字段
+	 * @param id 主键字段,不传则为删除全部
 	 */
 	IndexDB.prototype.del=function(storeName, id){
 	    this.open(function(db){
 	        var transaction=db.transaction(storeName, 'readwrite');
 	        var store=transaction.objectStore(storeName);
-	        store.delete(+id);
+	        if(id) {
+	            store.delete(+id);
+	        }else{
+	            store.clear();
+	        }
 	    });
 	};
 

@@ -5,6 +5,8 @@ var UI = require('amazeui-touch'),
     NavBar=UI.NavBar,
     Group=UI.Group,
     Modal=UI.Modal,
+    View=UI.View,
+    Loader=UI.Loader,
     Container=UI.Container;
 
 var utils = require('../lib/utils');
@@ -13,24 +15,31 @@ var db = require('../lib/IndexDB');
 module.exports=React.createClass({
     getInitialState:function(){
         return {
+            loading:true,
             isNew:true, //当前页面是否新增状态
-            showModal:false,
-            id:0,
-            type:null,
-            date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
-            amount:''
+            showConfirm:false,
+            id:0
         }
     },
     componentDidMount:function(){
         var id=this.props.params.id;
-        //如果是修改信息则赋值
+        //通过ID来判断是增加还是编辑
         if(id) {
             this.setState({isNew:false});
             //加载编辑信息
             db.get(db.TABLE_CONSUMPTION, id, function (info) {
+                info.loading=false;
                 info.id = id;
                 this.setState(info);
             }.bind(this));
+        }else{
+            //设置默认值
+            this.setState({
+                loading:false,
+                type:'gas',
+                date:utils.dateFormat(new Date(), 'yyyy-MM-dd'),
+                amount:''
+            });
         }
     },
     getData:function(){
@@ -68,7 +77,7 @@ module.exports=React.createClass({
         }
     },
     handleDelRecord:function(){
-        this.setState({showModal:true});
+        this.setState({showConfirm:true});
     },
     /**
      * 删除确认
@@ -80,39 +89,58 @@ module.exports=React.createClass({
             db.del(db.TABLE_CONSUMPTION, this.state.id);
             location.hash = '/index';
         }
-        this.setState({showModal:false});
+        this.setState({showConfirm:false});
     },
     render:function(){
-        var navBarProps = {
-            title: '新增消费记录',
-            amStyle:'primary',
-            leftNav:[
-                {
-                    icon:'left-nav',
-                    href:'javascript:history.back()'
-                }
-            ]
-        };
-        return (
-            <Container fill direction="column">
-                <NavBar {...navBarProps} />
-                <Field ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange} labelBefore="消费时间：" />
-                <ItemRows ref="itemRows" value={this.state.type} onChange={this.handleFieldChange} />
-                <Field ref="amount" type="number" value={this.state.amount} onChange={this.handleFieldChange} labelBefore="消费金额：" labelAfter="元" min="0" placeholder="请输入消费金额" />
-                {
-                    this.state.isNew?(
-                        <Group className="margin-0">
-                            <Button onClick={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
-                        </Group>
-                    ):(
-                        <Group className="margin-0 text-center">
-                            <Button onClick={this.handleDelRecord} amStyle="alert">删除记录</Button>
-                            <Button onClick={this.handleSaveRecord} amStyle="secondary">保存修改</Button>
-                        </Group>
-                    )
-                }
-                <Modal title="确定删除吗？" role="confirm" isOpen={this.state.showModal} onAction={this.handleAction}></Modal>
-            </Container>
-        )
+        if(this.state.loading){
+            return <Loader rounded amStyle="primary"/>
+        }else {
+            var navBarProps = {
+                title: '新增消费记录',
+                amStyle: 'primary',
+                leftNav: [
+                    {
+                        icon: 'left-nav',
+                        href: 'javascript:history.back()'
+                    }
+                ]
+            };
+            return (
+                <Container fill direction="column" transition="sfl">
+                    <NavBar {...navBarProps} />
+                    <div className="views">
+                        <View>
+                            <Container fill scrollable>
+                                <Field ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange}
+                                       labelBefore="消费时间："/>
+                                <ItemRows ref="itemRows" value={this.state.type} onChange={this.handleFieldChange}/>
+                                <Field
+                                    ref="amount"
+                                    type="number"
+                                    value={this.state.amount}
+                                    onChange={this.handleFieldChange}
+                                    labelBefore="消费金额："
+                                    labelAfter="元"
+                                    min="0"
+                                    placeholder="请输入消费金额"/>
+                                {
+                                    this.state.isNew ? (
+                                        <Group className="margin-0">
+                                            <Button type="submit" onClick={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
+                                        </Group>
+                                    ) : (
+                                        <Group className="margin-0 text-center">
+                                            <Button onClick={this.handleDelRecord} amStyle="alert">删除记录</Button>
+                                            <Button onClick={this.handleSaveRecord} amStyle="secondary">保存修改</Button>
+                                        </Group>
+                                    )
+                                }
+                                <Modal title="确定删除吗？" role="confirm" isOpen={this.state.showConfirm} onAction={this.handleAction}/>
+                            </Container>
+                        </View>
+                    </div>
+                </Container>
+            )
+        }
     }
 });

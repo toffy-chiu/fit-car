@@ -48,13 +48,22 @@ webpackJsonp([0],[
 	    });
 	};
 
+	//设置
+	var SettingPage=function(location, cb){
+	    __webpack_require__.e/* nsure */(5, function(require){
+	        //cb(error, value);
+	        cb(null, __webpack_require__(300));
+	    });
+	};
+
 	ReactDOM.render(
 	    React.createElement(Router, {history: hashHistory}, 
 	        React.createElement(Route, {path: "/", getComponent: IndexPage}), 
 	        React.createElement(Route, {path: "/index", getComponent: IndexPage}), 
 	        React.createElement(Route, {path: "/edit(/:id)", getComponent: EditPage}), 
 	        React.createElement(Route, {path: "/detail/:date", getComponent: DetailPage}), 
-	        React.createElement(Route, {path: "/overview", getComponent: OverviewPage})
+	        React.createElement(Route, {path: "/overview", getComponent: OverviewPage}), 
+	        React.createElement(Route, {path: "/setting", getComponent: SettingPage})
 	    )
 	    ,
 	    document.getElementById('container')

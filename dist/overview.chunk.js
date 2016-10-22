@@ -122,13 +122,17 @@ webpackJsonp([4],{
 	/**
 	 * 保存
 	 * @param storeName
-	 * @param id 主键字段
+	 * @param id 主键字段,不传则为删除全部
 	 */
 	IndexDB.prototype.del=function(storeName, id){
 	    this.open(function(db){
 	        var transaction=db.transaction(storeName, 'readwrite');
 	        var store=transaction.objectStore(storeName);
-	        store.delete(+id);
+	        if(id) {
+	            store.delete(+id);
+	        }else{
+	            store.clear();
+	        }
 	    });
 	};
 
@@ -249,6 +253,7 @@ webpackJsonp([4],{
 	    Icon=UI.Icon,
 	    Group=UI.Group,
 	    List=UI.List,
+	    View=UI.View,
 	    Container=UI.Container;
 
 	var db = __webpack_require__(294);
@@ -284,18 +289,9 @@ webpackJsonp([4],{
 	        };
 	    },
 	    render:function(){
-	        var navBarProps = {
-	            title: '花销总览',
-	            amStyle:'primary',
-	            leftNav:[
-	                {
-	                    icon:'left-nav',
-	                    href:'#/index'
-	                }
-	            ]
-	        };
 	        //数据预处理，同月份的合并
 	        var list=[];
+	        var total=0;
 	        if(this.state.list.length){
 	            var header='', month, types;
 	            this.state.list.forEach(function(o, i){
@@ -326,6 +322,7 @@ webpackJsonp([4],{
 	                    }
 	                }
 	                types[o.type].amount+=+o.amount;
+	                total+=+o.amount;
 
 	                //插入最后一项
 	                if(i==this.state.list.length-1){
@@ -336,26 +333,41 @@ webpackJsonp([4],{
 	                }
 	            }.bind(this));
 	        }
+	        var navBarProps = {
+	            title: '花销总览（共 '+total+' 元）',
+	            amStyle:'primary',
+	            leftNav:[
+	                {
+	                    icon:'left-nav',
+	                    href:'#/index'
+	                }
+	            ]
+	        };
 	        return (
-	            React.createElement(Container, null, 
+	            React.createElement(Container, {fill: true, direction: "column"}, 
 	                React.createElement(NavBar, React.__spread({},  navBarProps)), 
-	                React.createElement("div", {className: "item item-header"}, this.props.params.date), 
-	                React.createElement(Group, {noPadded: true, className: "margin-0"}, 
-	                    
-	                        list.length?(
-	                            React.createElement(List, null, 
+	                React.createElement("div", {className: "views"}, 
+	                    React.createElement(View, null, 
+	                        React.createElement(Container, {fill: true, scrollable: true}, 
+	                            React.createElement(Group, {noPadded: true, className: "margin-0"}, 
 	                                
-	                                    list.map(function(o, i){
-	                                        return o.title
-	                                            ?React.createElement(List.Item, {key: i, role: "header"}, o.title)
-	                                            :React.createElement(List.Item, {key: i, title: React.createElement("span", null, React.createElement(Icon, {name: o.icon}), " ", o.name), after: o.amount})
-	                                    })
+	                                    list.length?(
+	                                        React.createElement(List, null, 
+	                                            
+	                                                list.map(function(o, i){
+	                                                    return o.title
+	                                                        ?React.createElement(List.Item, {key: i, role: "header"}, o.title)
+	                                                        :React.createElement(List.Item, {key: i, title: React.createElement("span", null, React.createElement(Icon, {name: o.icon}), " ", o.name), after: o.amount})
+	                                                })
+	                                            
+	                                        )
+	                                    ):(
+	                                        React.createElement("h3", {className: "text-center padding-v-lg"}, React.createElement(Icon, {name: "info"}), "没有数据！")
+	                                    )
 	                                
 	                            )
-	                        ):(
-	                            React.createElement("h3", {className: "text-center padding-v-lg"}, React.createElement(Icon, {name: "info"}), "没有数据！")
 	                        )
-	                    
+	                    )
 	                )
 	            )
 	        )

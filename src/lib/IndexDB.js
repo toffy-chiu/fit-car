@@ -98,13 +98,17 @@ IndexDB.prototype.save=function(storeName, id, data){
 /**
  * 保存
  * @param storeName
- * @param id 主键字段
+ * @param id 主键字段,不传则为删除全部
  */
 IndexDB.prototype.del=function(storeName, id){
     this.open(function(db){
         var transaction=db.transaction(storeName, 'readwrite');
         var store=transaction.objectStore(storeName);
-        store.delete(+id);
+        if(id) {
+            store.delete(+id);
+        }else{
+            store.clear();
+        }
     });
 };
 

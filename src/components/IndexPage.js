@@ -44,12 +44,7 @@ module.exports=React.createClass({
     render:function(){
         var navBarProps = {
             title: '车消费记录',
-            amStyle:'primary',
-            rightNav:[
-                {
-                    icon:'refresh'
-                }
-            ]
+            amStyle:'primary'
         };
         return (
             <Container fill direction="column">
@@ -58,10 +53,11 @@ module.exports=React.createClass({
                     <TopDate onDateChange={this.topDateChange} />
                     <ItemTable value={this.state.tableValue} />
                 </div>
-                <TabBar amStyle="primary">
+                <TabBar amStyle="primary" className="padding-h-0">
                     <TabBar.Item title="记一笔" icon="plus" href="#/edit" />
                     <TabBar.Item title="当月明细" icon="list" href={'#/detail/'+this.state.date} />
                     <TabBar.Item title="花销总览" icon="pages" href={'#/overview'} />
+                    <TabBar.Item title="设置" icon="gear" href={'#/setting'} />
                 </TabBar>
             </Container>
         )
