@@ -43,7 +43,7 @@ module.exports=React.createClass({
         return (
             <div className="topDate">
                 <Icon name="left-nav" data-ctrl="prev" onClick={this.handleClick} onTouchStart={this.handleClick}/>
-                <strong> {this.state.year}年{(this.state.month<9?'0':'')+(this.state.month+1)}月 </strong>
+                <span> {this.state.year}年{(this.state.month<9?'0':'')+(this.state.month+1)}月 </span>
                 <Icon name="right-nav" data-ctrl="next" onClick={this.handleClick} onTouchStart={this.handleClick}/>
             </div>
         )

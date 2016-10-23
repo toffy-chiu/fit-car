@@ -5,6 +5,7 @@ var UI = require('amazeui-touch'),
     Badge=UI.Badge,
     Icon=UI.Icon,
     Group=UI.Group;
+var itemObj=require('../constants/CostType');
 
 module.exports = React.createClass({
     _value:null,    //自定义属性
@@ -24,29 +25,9 @@ module.exports = React.createClass({
      * @param itemName
      */
     getItemHTML:function(itemName){
-        //var itemObj={
-        //    gas:{name:'加油', icon:'am-icon-tint'},
-        //    park:{name:'停车', icon:'am-icon-product-hunt'},
-        //    wash:{name:'洗车', icon:'am-icon-flask'},
-        //    maintain:{name:'保养', icon:'am-icon-car'},
-        //    fix:{name:'维修', icon:'am-icon-wrench'},
-        //    breach:{name:'违章', icon:'am-icon-times'},
-        //    road:{name:'过路', icon:'am-icon-road'},
-        //    others:{name:'其他', icon:'am-icon-ellipsis-h'}
-        //};
-        var itemObj={
-            gas:{name:'加油', icon:'star'},
-            park:{name:'停车', icon:'star'},
-            wash:{name:'洗车', icon:'star'},
-            maintain:{name:'保养', icon:'star'},
-            fix:{name:'维修', icon:'star'},
-            breach:{name:'违章', icon:'star'},
-            road:{name:'过路', icon:'star'},
-            others:{name:'其他', icon:'star'}
-        };
         return (
             <Col>
-                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:2.9}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} amStyle={this.props.value==itemName?'secondary':'default'} rounded>
+                <Badge style={{width:'2.5rem',height:'2.5rem',lineHeight:3,backgroundColor:itemObj[itemName].color,color:'white',opacity:this.props.value==itemName?1:0.2}} onTouchStart={this.handleClick} onClick={this.handleClick} data-key={itemName} rounded>
                     <Icon name={itemObj[itemName].icon} />
                 </Badge>
                 <div>{itemObj[itemName].name}</div>

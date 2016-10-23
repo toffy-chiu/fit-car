@@ -93,7 +93,11 @@ module.exports=React.createClass({
     },
     render:function(){
         if(this.state.loading){
-            return <Loader rounded amStyle="primary"/>
+            return (
+                <div className="loading">
+                    <Loader rounded amStyle="primary"/>
+                </div>
+            )
         }else {
             var navBarProps = {
                 title: '新增消费记录',

@@ -7,6 +7,10 @@
     white-space: nowrap;
     overflow: hidden;
 }
+.loading{
+    text-align: center;
+    padding-top:50%;
+}
 .topDate{
     text-align: center;
     border-bottom:1px solid #CCCCCC;

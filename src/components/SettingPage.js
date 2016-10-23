@@ -7,10 +7,10 @@ var UI = require('amazeui-touch'),
     View=UI.View,
     Modal=UI.Modal,
     Field=UI.Field,
+    Notification=UI.Notification,
     Container=UI.Container;
 
 var db = require('../lib/IndexDB');
-var ct=require('../constants/CostType');
 
 require('./css/SettingPage.css');
 
@@ -18,12 +18,16 @@ module.exports=React.createClass({
     getInitialState:function(){
         return {
             showDialog:false,
+            noticeVisible:false,
             imports:{
                 file:null,
                 type:1
             }
         }
     },
+    /**
+     * 导入数据文件
+     */
     importData:function(){
         this.setState({showDialog:true});
     },
@@ -45,6 +49,10 @@ module.exports=React.createClass({
             downloadFile('fit.json', JSON.stringify(list));
         });
     },
+    /**
+     * 更新导入文件
+     * @param e
+     */
     handleImportFileChange:function(e){
         this.state.imports.file=e.target.files[0];
         this.setState({
@@ -82,6 +90,7 @@ module.exports=React.createClass({
                     });
                     that.state.imports.file = null;
                     that.state.showDialog = false;
+                    that.state.noticeVisible=true;
                     that.setState(that.state);
                 };
                 reader.readAsText(this.state.imports.file);
@@ -89,6 +98,9 @@ module.exports=React.createClass({
         }else{
             this.setState({showDialog:false});
         }
+    },
+    closeNotification:function(){
+        this.setState({noticeVisible:false});
     },
     render:function(){
         var navBarProps = {
@@ -103,6 +115,7 @@ module.exports=React.createClass({
         };
         return (
             <Container fill direction="column">
+                <Notification amStyle="secondary" visible={this.state.noticeVisible} animated onDismiss={this.closeNotification}>导入完毕！</Notification>
                 <NavBar {...navBarProps} />
                 <div className="views">
                     <View>

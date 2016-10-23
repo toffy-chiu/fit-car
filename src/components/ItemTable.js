@@ -12,20 +12,10 @@ module.exports = React.createClass({
      * @param itemName
      */
     getItemHTML:function(itemName){
-        //var itemObj={
-        //    gas:{name:'加油', icon:'am-icon-tint'},
-        //    park:{name:'停车', icon:'am-icon-product-hunt'},
-        //    wash:{name:'洗车', icon:'am-icon-flask'},
-        //    maintain:{name:'保养', icon:'am-icon-car'},
-        //    fix:{name:'维修', icon:'am-icon-wrench'},
-        //    breach:{name:'违章', icon:'am-icon-times'},
-        //    road:{name:'过路', icon:'am-icon-road'},
-        //    others:{name:'其他', icon:'am-icon-ellipsis-h'}
-        //};
         return (
             <Col>
-                <Icon name={itemObj[itemName].icon} />
-                <small style={{marginLeft:'5px',verticalAlign:'text-top'}}>{itemObj[itemName].name}</small>
+                <Icon name={itemObj[itemName].icon} style={{float:'left',marginTop:-2,fontSize:28,color:this.props.value[itemName]?itemObj[itemName].color:'#ccc'}} />
+                <span style={{marginLeft:'3px'}}>{itemObj[itemName].name}</span>
                 {
                     this.props.value[itemName]
                     ?<span className="fr">￥{this.props.value[itemName]}</span>
