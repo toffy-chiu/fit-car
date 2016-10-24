@@ -1,4 +1,3 @@
-var React=require('react');
 var UI = require('amazeui-touch'),
     NavBar=UI.NavBar,
     Icon=UI.Icon,

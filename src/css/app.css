@@ -1,3 +1,6 @@
+a{
+    touch-action: none;
+}
 .container-scrollable{
     overflow-y: auto;
 }

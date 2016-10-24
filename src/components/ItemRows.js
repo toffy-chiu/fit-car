@@ -1,4 +1,3 @@
-var React=require('react');
 var UI = require('amazeui-touch'),
     Grid=UI.Grid,
     Col=UI.Col,

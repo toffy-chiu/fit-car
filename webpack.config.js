@@ -52,6 +52,9 @@ module.exports = {
                 NODE_ENV: JSON.stringify("production")
             }
         }),
+        new webpack.ProvidePlugin({
+            React:'react'
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
         //new ExtractTextPlugin(isProd ? '[name].[chunkhash:8].css' : '[name].css'),

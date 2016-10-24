@@ -1,17 +1,15 @@
-var React=require('react');
 var ReactDOM=require('react-dom');
 var ReactRouter=require('react-router'),
+    withRouter=ReactRouter.withRouter,
     hashHistory=ReactRouter.hashHistory,
+    //browserHistory=ReactRouter.browserHistory,
+    IndexRoute=ReactRouter.IndexRoute,
     Route=ReactRouter.Route,
     Router=ReactRouter.Router;
 
 //首页
-var IndexPage=function(location, cb){
-    require.ensure([], function(require){
-        //cb(error, value);
-        cb(null, require('./IndexPage'));
-    }, 'index');
-};
+var IndexPage=require('./IndexPage');
+IndexPage=withRouter(IndexPage);
 
 //编辑页
 var EditPage=function(location, cb){
@@ -47,12 +45,14 @@ var SettingPage=function(location, cb){
 
 ReactDOM.render(
     <Router history={hashHistory}>
-        <Route path="/" getComponent={IndexPage}/>
-        <Route path="/index" getComponent={IndexPage}/>
-        <Route path="/edit(/:id)" getComponent={EditPage}/>
-        <Route path="/detail/:date" getComponent={DetailPage}/>
-        <Route path="/overview" getComponent={OverviewPage}/>
-        <Route path="/setting" getComponent={SettingPage}/>
+        <Route path="/">
+            <IndexRoute component={IndexPage}/>
+            <Route path="/index" component={IndexPage}/>
+            <Route path="/edit(/:id)" getComponent={EditPage}/>
+            <Route path="/detail/:date" getComponent={DetailPage}/>
+            <Route path="/overview" getComponent={OverviewPage}/>
+            <Route path="/setting" getComponent={SettingPage}/>
+        </Route>
     </Router>
     ,
     document.getElementById('container')

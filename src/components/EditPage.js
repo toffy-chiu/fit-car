@@ -1,4 +1,3 @@
-var React=require('react');
 var UI = require('amazeui-touch'),
     Field=UI.Field,
     Button=UI.Button,

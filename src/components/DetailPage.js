@@ -1,4 +1,3 @@
-var React=require('react');
 var Link=require('react-router').Link;
 var UI = require('amazeui-touch'),
     NavBar=UI.NavBar,
