@@ -49,10 +49,11 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify("production")
+                NODE_ENV: JSON.stringify(isProd?"production":"dev")
             }
         }),
         new webpack.ProvidePlugin({
+            $:'jquery',
             React:'react'
         }),
         new webpack.HotModuleReplacementPlugin(),
