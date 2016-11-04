@@ -215,7 +215,11 @@ function getDaysTemplate() {
         <div className="datePicker-days">
             <table>
                 <thead>
-                <tr><th className="prev"><i className={leftIconClass}></i></th><th colSpan="5" className="header-switch">{dateFormat(this.viewDate, 'yyyy年MM月')}</th><th className="next"><i className={rightIconClass}></i></th></tr>
+                <tr>
+                    <th className="prev" onClick={this.changePage.bind(this, -1)}><i className={leftIconClass}></i></th>
+                    <th colSpan="5" className="header-switch" onClick={this.switchView}>{dateFormat(this.viewDate, 'yyyy年MM月')}</th>
+                    <th className="next" onClick={this.changePage.bind(this, 1)}><i className={rightIconClass}></i></th>
+                </tr>
                 <tr><th className="dow">日</th><th className="dow">一</th><th className="dow">二</th><th className="dow">三</th><th className="dow">四</th><th className="dow">五</th><th className="dow">六</th></tr>
                 </thead>
                 <tbody>
@@ -233,10 +237,10 @@ function getDaysTemplate() {
                                             //非当月份的格子
                                             if (day == 1) {
                                                 //上个月的
-                                                return <td key={i} className="day old">{lastMonthDayMax - weekdayOfMonth1st + 1 + i}</td>
+                                                return <td key={i} onClick={this.clickDay} className="day old">{lastMonthDayMax - weekdayOfMonth1st + 1 + i}</td>
                                             } else {
                                                 //下个月的
-                                                return <td key={i} className="day new">{((day++) - maxDayOfMonth)}</td>
+                                                return <td key={i} onClick={this.clickDay} className="day new">{((day++) - maxDayOfMonth)}</td>
                                             }
                                         }
                                     }.bind(this))
@@ -246,7 +250,7 @@ function getDaysTemplate() {
                     }.bind(this))
                 }
                 </tbody>
-                <tfoot><tr><th colSpan="7" className="clear">清空</th></tr></tfoot>
+                <tfoot><tr><th colSpan="7" className="clear" onClick={this.clear}>清空</th></tr></tfoot>
             </table>
         </div>
     )
@@ -255,26 +259,29 @@ function getMonthsTemplate() {
     var year = this.viewDate.getFullYear(),
         month = this.viewDate.getMonth(),
         selectedYear=this.date.getFullYear();
-    var str='';
+    var arr=[];
     for (var i = 0; i < 12; i++) {
-        str+='<span class="month'+((year == selectedYear && month == i)?' active':'')+'">'+(i+1)+'月</span>';
+        arr.push(<span key={i} onClick={this.clickMonth.bind(this, i)} className={'month'+((year == selectedYear && month == i)?' active':'')}>{i+1}月</span>)
     }
-    var sb='<div class="datePicker-months">' +
-        '<table>' +
-        '<thead>' +
-        '<tr><th class="prev"><i class="'+leftIconClass+'"></i></th><th colSpan="5" class="header-switch">'+dateFormat(this.viewDate, 'yyyy年')+'</th><th class="next"><i class="'+rightIconClass+'"></i></th></tr>' +
-        '</thead>' +
-        '<tbody>' +
-        '<tr>' +
-        '<td colSpan="7">' +
-        str +
-        '</td>' +
-        '</tr>' +
-        '</tbody>' +
-        '<tfoot><tr><th colSpan="7" class="clear">清空</th></tr></tfoot>' +
-        '</table>' +
-        '</div>';
-    return sb;
+    return (
+        <div className="datePicker-months">
+            <table>
+                <thead>
+                <tr>
+                    <th className="prev" onClick={this.changePage.bind(this, -1)}><i className={leftIconClass}></i></th>
+                    <th colSpan="5" className="header-switch">{dateFormat(this.viewDate, 'yyyy年')}</th>
+                    <th className="next" onClick={this.changePage.bind(this, 1)}><i className={rightIconClass}></i></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colSpan="7">{arr}</td>
+                </tr>
+                </tbody>
+                <tfoot><tr><th colSpan="7" className="clear" onClick={this.clear}>清空</th></tr></tfoot>
+            </table>
+        </div>
+    );
 }
 function getYearsTemplate() {
     var year = this.viewDate.getFullYear(),
@@ -282,12 +289,12 @@ function getYearsTemplate() {
     year = parseInt(year/10, 10) * 10;
     var str='';
     for (var i = year-1; i <= year+10; i++) {
-        str+='<span class="year'+((selectedYear == i)?' active':'')+'">'+i+'</span>';
+        str+='<span className="year'+((selectedYear == i)?' active':'')+'">'+i+'</span>';
     }
-    var sb='<div class="datePicker-years">' +
+    var sb='<div className="datePicker-years">' +
         '<table>' +
         '<thead>' +
-        '<tr><th class="prev"><i class="'+leftIconClass+'"></i></th><th colSpan="5" class="header-switch">'+year+'-'+(year+9)+'</th><th class="next"><i class="'+rightIconClass+'"></i></th></tr>' +
+        '<tr><th className="prev"><i className="'+leftIconClass+'"></i></th><th colSpan="5" className="header-switch">'+year+'-'+(year+9)+'</th><th className="next"><i className="'+rightIconClass+'"></i></th></tr>' +
         '</thead>' +
         '<tbody>' +
         '<tr>' +
@@ -296,7 +303,7 @@ function getYearsTemplate() {
         '</td>' +
         '</tr>' +
         '</tbody>' +
-        '<tfoot><tr><th colSpan="7" class="clear">清空</th></tr></tfoot>' +
+        '<tfoot><tr><th colSpan="7" className="clear">清空</th></tr></tfoot>' +
         '</table>' +
         '</div>';
     return sb;
@@ -305,12 +312,12 @@ function getHoursTemplate() {
     var hour = this.viewDate.getHours();
     var str='';
     for (var i = 0; i < 24; i++) {
-        str+='<span class="hour'+((hour == i)?' active':'')+'">'+i+':00</span>';
+        str+='<span className="hour'+((hour == i)?' active':'')+'">'+i+':00</span>';
     }
-    var sb='<div class="datePicker-hours">' +
+    var sb='<div className="datePicker-hours">' +
         '<table>' +
         '<thead>' +
-        '<tr><th class="prev"><i class="'+leftIconClass+'"></i></th><th colSpan="5" class="header-switch">'+dateFormat(this.viewDate, 'yyyy年MM月dd日')+'</th><th class="next"><i class="'+rightIconClass+'"></i></th></tr>' +
+        '<tr><th className="prev"><i className="'+leftIconClass+'"></i></th><th colSpan="5" className="header-switch">'+dateFormat(this.viewDate, 'yyyy年MM月dd日')+'</th><th className="next"><i className="'+rightIconClass+'"></i></th></tr>' +
         '</thead>' +
         '<tbody>' +
         '<tr>' +
@@ -319,7 +326,7 @@ function getHoursTemplate() {
         '</td>' +
         '</tr>' +
         '</tbody>' +
-        '<tfoot><tr><th colSpan="7" class="clear">清空</th></tr></tfoot>' +
+        '<tfoot><tr><th colSpan="7" className="clear">清空</th></tr></tfoot>' +
         '</table>' +
         '</div>';
     return sb;
@@ -329,12 +336,12 @@ function getMinutesTemplate() {
     var minute=this.viewDate.getMinutes();
     var str='';
     for (var i = 0; i < 60; i+=5) {
-        str+='<span class="minute'+((minute == i)?' active':'')+'">'+hour+':'+(i<10?'0'+i:i)+'</span>';
+        str+='<span className="minute'+((minute == i)?' active':'')+'">'+hour+':'+(i<10?'0'+i:i)+'</span>';
     }
-    var sb='<div class="datePicker-minutes">' +
+    var sb='<div className="datePicker-minutes">' +
         '<table>' +
         '<thead>' +
-        '<tr><th class="prev"><i class="'+leftIconClass+'"></i></th><th colSpan="5" class="header-switch">'+dateFormat(this.viewDate, 'yyyy年MM月dd日')+'</th><th class="next"><i class="'+rightIconClass+'"></i></th></tr>' +
+        '<tr><th className="prev"><i className="'+leftIconClass+'"></i></th><th colSpan="5" className="header-switch">'+dateFormat(this.viewDate, 'yyyy年MM月dd日')+'</th><th className="next"><i className="'+rightIconClass+'"></i></th></tr>' +
         '</thead>' +
         '<tbody>' +
         '<tr>' +
@@ -343,7 +350,7 @@ function getMinutesTemplate() {
         '</td>' +
         '</tr>' +
         '</tbody>' +
-        '<tfoot><tr><th colSpan="7" class="clear">清空</th></tr></tfoot>' +
+        '<tfoot><tr><th colSpan="7" className="clear">清空</th></tr></tfoot>' +
         '</table>' +
         '</div>';
     return sb;
@@ -359,20 +366,20 @@ function getWeeksTemplate() {
         //第一列加上tr标签
         if (i % 7 == 1)
             str += '<tr>';
-        str += '<td class="week'+((year == selectedYear && week == i)?' active':'')+'">' + i + '</td>';
+        str += '<td className="week'+((year == selectedYear && week == i)?' active':'')+'">' + i + '</td>';
         //最后一列也要补上tr标签
         if (i % 7 == 0)
             str += '</tr>';
     }
-    var sb='<div class="datePicker-weeks">' +
+    var sb='<div className="datePicker-weeks">' +
         '<table>' +
         '<thead>' +
-        '<tr><th class="prev"><i class="'+leftIconClass+'"></i></th><th colSpan="5" class="header-switch">'+year+'年</th><th class="next"><i class="'+rightIconClass+'"></i></th></tr>' +
+        '<tr><th className="prev"><i className="'+leftIconClass+'"></i></th><th colSpan="5" className="header-switch">'+year+'年</th><th className="next"><i className="'+rightIconClass+'"></i></th></tr>' +
         '</thead>' +
         '<tbody>' +
         str +
         '</tbody>' +
-        '<tfoot><tr><th colSpan="7" class="clear">清空</th></tr></tfoot>' +
+        '<tfoot><tr><th colSpan="7" className="clear">清空</th></tr></tfoot>' +
         '</table>' +
         '</div>';
     return sb;
@@ -583,12 +590,76 @@ module.exports=React.createClass({
         ReactDOM.render(template, this.picker);
         this.locate();
     },
+    /**
+     * 清空值
+     */
+    clear:function(){
+        this.element.value='';
+        this.hide();
+    },
+    /**
+     * 切换视图
+     */
+    switchView:function(){
+        switch (this.viewMode){
+            case 1:
+                this.renderTemplate('month');
+                break;
+            case 2:
+                this.renderTemplate('year');
+                break;
+            case 4:
+                this.renderTemplate('date');
+                break;
+            case 5:
+                this.renderTemplate('hour');
+                break;
+        }
+    },
+    /**
+     * 上一页、下一页
+     * @param dir
+     */
+    changePage:function(dir){
+        switch(this.viewMode){
+            case 6:
+                this.viewDate = moveYear(this.viewDate, dir);
+                this.renderTemplate('week');
+                break;
+            case 5:
+                this.viewDate = moveHour(this.viewDate, dir);
+                this.renderTemplate('minute');
+                break;
+            case 4:
+                this.viewDate = moveDate(this.viewDate, dir);
+                this.renderTemplate('hour');
+                break;
+            case 3:
+                this.viewDate = moveYear(this.viewDate, dir*10);
+                this.renderTemplate('year');
+                break;
+            case 2:
+                this.viewDate = moveYear(this.viewDate, dir);
+                this.renderTemplate('month');
+                break;
+            case 1:
+            default :
+                this.viewDate = moveMonth(this.viewDate, dir);
+                this.renderTemplate();
+                break;
+        }
+    },
+    /**
+     * 选日
+     * @param e
+     */
     clickDay:function(e){
         var td=e.target;
         var day = parseInt(td.textContent, 10)||1;
         var year = this.viewDate.getFullYear(),
             month = this.viewDate.getMonth();
         if (hasClass(td, 'old')) {
+            //上个月的天数
             if (month === 0) {
                 month = 11;
                 year -= 1;
@@ -596,6 +667,7 @@ module.exports=React.createClass({
                 month -= 1;
             }
         } else if (hasClass(td, 'new')) {
+            //下个月的天数
             if (month == 11) {
                 month = 0;
                 year += 1;
@@ -608,6 +680,21 @@ module.exports=React.createClass({
             this.renderTemplate('hour');
         }else {
             this._setDate(new Date(year, month, day));
+            this.hide();
+        }
+    },
+    /**
+     * 选月
+     * @param month
+     */
+    clickMonth:function(month){
+        var day = 1;
+        var year = this.viewDate.getFullYear();
+        this.viewDate.setFullYear(year, month, day);
+        if (this.props.type == 'date') {
+            this.renderTemplate();
+        }else{
+            this._setDate(this.viewDate);
             this.hide();
         }
     },
