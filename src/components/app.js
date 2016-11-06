@@ -43,13 +43,6 @@ var SettingPage=function(location, cb){
     }, 'setting');
 };
 
-var TestPage=function(location, cb){
-    require.ensure([], function(require){
-        //cb(error, value);
-        cb(null, require('./TestPage'));
-    }, 'test');
-};
-
 ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/">
@@ -59,7 +52,6 @@ ReactDOM.render(
             <Route path="/detail/:date" getComponent={DetailPage}/>
             <Route path="/overview" getComponent={OverviewPage}/>
             <Route path="/setting" getComponent={SettingPage}/>
-            <Route path="/test" getComponent={TestPage}/>
         </Route>
     </Router>
     ,
