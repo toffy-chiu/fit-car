@@ -1,8 +1,7 @@
-var UI = require('amazeui-touch'),
-    Grid=UI.Grid,
-    Col=UI.Col,
-    Icon=UI.Icon,
-    Group=UI.Group;
+var Grid=require('amazeui-touch/lib/Grid');
+var Col=require('amazeui-touch/lib/Col');
+var Icon=require('amazeui-touch/lib/Icon');
+var Group=require('amazeui-touch/lib/Group');
 var itemObj=require('../constants/CostType');
 
 module.exports = React.createClass({

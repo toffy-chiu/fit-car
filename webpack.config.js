@@ -27,8 +27,7 @@ module.exports = {
         vendor:[
             'react',
             'react-dom',
-            'react-router',
-            'amazeui-touch'
+            'react-router'
         ]
     },
     output: {
@@ -53,7 +52,6 @@ module.exports = {
             }
         }),
         new webpack.ProvidePlugin({
-            $:'jquery',
             React:'react'
         }),
         new webpack.HotModuleReplacementPlugin(),

@@ -1,13 +1,12 @@
-var UI = require('amazeui-touch'),
-    NavBar=UI.NavBar,
-    Icon=UI.Icon,
-    Group=UI.Group,
-    List=UI.List,
-    View=UI.View,
-    Modal=UI.Modal,
-    Field=UI.Field,
-    Notification=UI.Notification,
-    Container=UI.Container;
+var NavBar=require('amazeui-touch/lib/NavBar');
+var List=require('amazeui-touch/lib/List');
+var View=require('amazeui-touch/lib/View');
+var Icon=require('amazeui-touch/lib/Icon');
+var Group=require('amazeui-touch/lib/Group');
+var Modal=require('amazeui-touch/lib/Modal');
+var Field=require('amazeui-touch/lib/Field');
+var Notification=require('amazeui-touch/lib/Notification');
+var Container=require('amazeui-touch/lib/Container');
 
 var db = require('../lib/IndexDB');
 

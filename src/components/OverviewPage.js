@@ -1,11 +1,10 @@
-var UI = require('amazeui-touch'),
-    NavBar=UI.NavBar,
-    Icon=UI.Icon,
-    Group=UI.Group,
-    List=UI.List,
-    View=UI.View,
-    Loader=UI.Loader,
-    Container=UI.Container;
+var NavBar=require('amazeui-touch/lib/NavBar');
+var List=require('amazeui-touch/lib/List');
+var View=require('amazeui-touch/lib/View');
+var Icon=require('amazeui-touch/lib/Icon');
+var Group=require('amazeui-touch/lib/Group');
+var Loader=require('amazeui-touch/lib/Loader');
+var Container=require('amazeui-touch/lib/Container');
 
 var db = require('../lib/IndexDB');
 var ct=require('../constants/CostType');

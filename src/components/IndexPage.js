@@ -1,10 +1,10 @@
-var UI = require('amazeui-touch'),
-    NavBar=UI.NavBar,
-    TabBar=UI.TabBar,
-    Container=UI.Container;
+var NavBar=require('amazeui-touch/lib/NavBar');
+var TabBar=require('amazeui-touch/lib/TabBar');
+var Container=require('amazeui-touch/lib/Container');
 
 var TopDate = require('./TopDate');
 var ItemTable = require('./ItemTable');
+var Chart = require('./Chart');
 
 var db = require('../lib/IndexDB');
 
@@ -50,6 +50,7 @@ module.exports=React.createClass({
                 <div className="views">
                     <NavBar {...navBarProps} />
                     <TopDate onDateChange={this.topDateChange} />
+                    <Chart data={this.state.tableValue}/>
                     <ItemTable value={this.state.tableValue} />
                 </div>
                 <TabBar amStyle="primary" className="padding-h-0">

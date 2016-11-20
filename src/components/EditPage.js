@@ -1,12 +1,11 @@
-var UI = require('amazeui-touch'),
-    Field=UI.Field,
-    Button=UI.Button,
-    NavBar=UI.NavBar,
-    Group=UI.Group,
-    Modal=UI.Modal,
-    View=UI.View,
-    Loader=UI.Loader,
-    Container=UI.Container;
+var NavBar=require('amazeui-touch/lib/NavBar');
+var Field=require('amazeui-touch/lib/Field');
+var Button=require('amazeui-touch/lib/Button');
+var Modal=require('amazeui-touch/lib/Modal');
+var View=require('amazeui-touch/lib/View');
+var Group=require('amazeui-touch/lib/Group');
+var Loader=require('amazeui-touch/lib/Loader');
+var Container=require('amazeui-touch/lib/Container');
 
 var utils = require('../lib/utils');
 var ItemRows = require('./ItemRows');

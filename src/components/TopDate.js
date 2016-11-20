@@ -1,6 +1,5 @@
 var React=require('react');
-var UI = require('amazeui-touch'),
-    Icon=UI.Icon;
+var Icon=require('amazeui-touch/lib/Icon');
 
 module.exports=React.createClass({
     getInitialState:function(){

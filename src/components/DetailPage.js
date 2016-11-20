@@ -1,10 +1,9 @@
 var Link=require('react-router').Link;
-var UI = require('amazeui-touch'),
-    NavBar=UI.NavBar,
-    Icon=UI.Icon,
-    Group=UI.Group,
-    Loader=UI.Loader,
-    Container=UI.Container;
+var NavBar=require('amazeui-touch/lib/NavBar');
+var Icon=require('amazeui-touch/lib/Icon');
+var Group=require('amazeui-touch/lib/Group');
+var Loader=require('amazeui-touch/lib/Loader');
+var Container=require('amazeui-touch/lib/Container');
 
 var db = require('../lib/IndexDB');
 var ct=require('../constants/CostType');
