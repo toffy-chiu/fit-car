@@ -2,18 +2,9 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 //var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path=require('path');
-var copy=require('./src/lib/copy');
 
 // 生产环境
 var isProd = process.env.NODE_ENV === 'production';
-
-//复制静态资源文件
-if(isProd) {
-    //css
-    copy('./src/css', './dist');
-    //images
-    copy('./src/img', './dist');
-}
 
 module.exports = {
     entry: {
@@ -59,6 +50,7 @@ module.exports = {
         //new ExtractTextPlugin(isProd ? '[name].[chunkhash:8].css' : '[name].css'),
         new HtmlWebpackPlugin({
             title:'车辆花销管理',
+            favicon:'./src/img/favicon.png',
             template:isProd?'./src/index.html':'./src/index.debug.html',
             filename:'./index.html' //结合output.path
         })

@@ -1,28 +1,18 @@
 CACHE MANIFEST
 
-#version 2.1
+#version 1.1.0
 
 CACHE:
 
 #JS
 app.js
 edit.chunk.js
-index.chunk.js
 overview.chunk.js
 setting.chunk.js
 vendor.js
 
-#CSS
-amazeui.touch.min.css
-app.css
-
 #IMAGE
 favicon.png
-
-#FONTS
-fonts/ratchicons.ttf
-fonts/ratchicons.woff
-fonts/ratchicons.woff2
 
 NETWORK:
 *

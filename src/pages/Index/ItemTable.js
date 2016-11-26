@@ -12,7 +12,7 @@ module.exports = React.createClass({
     getItemHTML:function(itemName){
         return (
             <Col>
-                <Icon name={itemObj[itemName].icon} color={this.props.value[itemName]?itemObj[itemName].color:'#ccc'} style={{verticalAlign:'text-top'}}/>
+                <Icon name={itemObj[itemName].icon} color={this.props.value[itemName]?itemObj[itemName].color:'#ccc'} style={{verticalAlign:'top'}}/>
                 <span style={{marginLeft:'3px'}}>{itemObj[itemName].name}</span>
                 {
                     this.props.value[itemName]

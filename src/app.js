@@ -7,6 +7,8 @@ var ReactRouter=require('react-router'),
     Route=ReactRouter.Route,
     Router=ReactRouter.Router;
 require('./lib/iconfont');
+require('./css/amazeui.touch.min.css');
+require('./css/app.css');
 
 //首页
 var IndexPage=require('./pages/Index');
