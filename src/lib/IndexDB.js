@@ -1,4 +1,4 @@
-var utils=require('./utils');
+var objectAssign=require('tf-utils/lib/objectAssign');
 var VERSION = 9;
 var DB_NAME='fit-car';
 
@@ -89,7 +89,7 @@ IndexDB.prototype.save=function(storeName, id, data){
         var request=store.get(+id);
         request.onsuccess=function(e){
             var row=e.target.result;
-            utils.objectAssign(row, data);
+            objectAssign(row, data);
             store.put(row, +id);
         };
     });

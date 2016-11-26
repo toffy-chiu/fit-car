@@ -45,3 +45,6 @@ a{
     vertical-align: text-bottom;
     font-size: 1.8rem;
 }
+.tabbar-label{
+    font-size: 14px;
+}

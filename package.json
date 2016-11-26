@@ -4,7 +4,7 @@
   "description": "record something information of car",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production webpack -p",
+    "build": "NODE_ENV=production webpack -p",
     "test": "node ./server.js"
   },
   "keywords": [
@@ -21,7 +21,8 @@
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-router": "^2.8.1"
+    "react-router": "^2.8.1",
+    "tf-utils": "^1.0.0"
   },
   "devDependencies": {
     "css-loader": "^0.25.0",

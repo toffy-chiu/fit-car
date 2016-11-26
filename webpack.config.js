@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+//var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path=require('path');
 var copy=require('./src/lib/copy');
 
@@ -18,11 +18,11 @@ if(isProd) {
 module.exports = {
     entry: {
         app: isProd?[
-            './src/components/app'
+            './src/app'
         ]:[
             'webpack-dev-server/client?http://0.0.0.0:3000',
             'webpack/hot/only-dev-server',
-            './src/components/app'
+            './src/app'
         ],
         vendor:[
             'react',
