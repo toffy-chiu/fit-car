@@ -1,10 +1,6 @@
 var NavBar=require('../../components/NavBar');
-var List=require('amazeui-touch/lib/List');
-var View=require('amazeui-touch/lib/View');
 var Icon=require('../../components/Icon');
-var Group=require('amazeui-touch/lib/Group');
-var Loader=require('amazeui-touch/lib/Loader');
-var Container=require('amazeui-touch/lib/Container');
+var Loader=require('../../components/Loader');
 
 var db = require('../../lib/IndexDB');
 var ct=require('../../constants/CostType');
@@ -31,11 +27,7 @@ module.exports=React.createClass({
     },
     render:function(){
         if(this.state.loading){
-            return (
-                <div className="loading">
-                    <Loader rounded amStyle="primary"/>
-                </div>
-            )
+            return <Loader/>
         }else {
             //数据预处理，同月份的合并
             var list = [];
@@ -83,39 +75,44 @@ module.exports=React.createClass({
                 }.bind(this));
             }
             return (
-                <Container fill direction="column">
+                <div className="container container-fill container-column">
                     <NavBar title={`花销总览（共 ${total} 元）`} leftNav={{}} />
                     <div className="views">
-                        <View>
-                            <Container fill scrollable>
-                                <Group noPadded className="margin-0">
-                                    {
-                                        list.length ? (
-                                            <List>
-                                                {
-                                                    list.map(function (o, i) {
-                                                        return o.title
-                                                            ? <List.Item key={i} role="header">{o.title}</List.Item>
-                                                            : <List.Item key={i}
-                                                                         title={(
-                                                                             <div style={{display:'flex',alignItems:'center'}}>
-                                                                                <Icon name={o.icon} color={o.color} size="30"/>
-                                                                                <span style={{marginLeft:5}}>{o.name}</span>
-                                                                             </div>
-                                                                         )}
-                                                                         after={o.amount}/>
-                                                    })
-                                                }
-                                            </List>
-                                        ) : (
-                                            <h3 className="text-center padding-v-lg">没有数据！</h3>
-                                        )
-                                    }
-                                </Group>
-                            </Container>
-                        </View>
+                        <div className="view">
+                            <div className="container container-fill container-scrollable">
+                                <div className="margin-0 group group-no-padded">
+                                    <div className="group-body">
+                                        {
+                                            list.length ? (
+                                                <ul className="list">
+                                                    {
+                                                        list.map(function (o, i) {
+                                                            return o.title
+                                                                ? <li className="item item-header" key={i}>{o.title}</li>
+                                                                : (
+                                                                <li className="item" key={i}>
+                                                                    <h3 className="item-title">
+                                                                        <div style={{display:'flex',alignItems:'center'}}>
+                                                                            <Icon name={o.icon} color={o.color} size="30"/>
+                                                                            <span style={{marginLeft:5}}>{o.name}</span>
+                                                                        </div>
+                                                                    </h3>
+                                                                    <div className="item-after">{o.amount}</div>
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                            ) : (
+                                                <h3 className="text-center padding-v-lg">没有数据！</h3>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </Container>
+                </div>
             )
         }
     }

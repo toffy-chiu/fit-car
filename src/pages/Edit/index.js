@@ -1,11 +1,6 @@
 var NavBar=require('../../components/NavBar');
-var Field=require('amazeui-touch/lib/Field');
-var Button=require('amazeui-touch/lib/Button');
 var Modal=require('amazeui-touch/lib/Modal');
-var View=require('amazeui-touch/lib/View');
-var Group=require('amazeui-touch/lib/Group');
-var Loader=require('amazeui-touch/lib/Loader');
-var Container=require('amazeui-touch/lib/Container');
+var Loader=require('../../components/Loader');
 
 var ItemRows = require('./ItemRows');
 var dateFormat = require('tf-utils/lib/dateFormat');
@@ -42,9 +37,9 @@ module.exports=React.createClass({
     },
     getData:function(){
         return {
-            date:this.refs.date.getValue(),
+            date:this.refs.date.value,
             type:this.refs.itemRows.getValue(),
-            amount:this.refs.amount.getValue()
+            amount:this.refs.amount.value
         };
     },
     /**
@@ -91,47 +86,45 @@ module.exports=React.createClass({
     },
     render:function(){
         if(this.state.loading){
-            return (
-                <div className="loading">
-                    <Loader rounded amStyle="primary"/>
-                </div>
-            )
+            return <Loader/>
         }else {
             return (
-                <Container fill direction="column" transition="sfl">
+                <div className="container container-fill container-column">
                     <NavBar title="新增消费记录" leftNav={{}} />
                     <div className="views">
-                        <View>
-                            <Container fill scrollable>
-                                <Field ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange}
-                                       labelBefore="消费时间："/>
+                        <div className="view">
+                            <div className="container container-fill container-scrollable">
+                                <div className="field-group">
+                                    <span className="field-group-label">消费时间：</span>
+                                    <input ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange} className="field"/>
+                                </div>
                                 <ItemRows ref="itemRows" value={this.state.type} onChange={this.handleFieldChange}/>
-                                <Field
-                                    ref="amount"
-                                    type="number"
-                                    value={this.state.amount}
-                                    onChange={this.handleFieldChange}
-                                    labelBefore="消费金额："
-                                    labelAfter="元"
-                                    min="0"
-                                    placeholder="请输入消费金额"/>
+                                <div className="field-group">
+                                    <span className="field-group-label">消费金额：</span>
+                                    <input ref="amount" type="number" min="0" value={this.state.amount} onChange={this.handleFieldChange} placeholder="请输入消费金额" className="field"/>
+                                    <span className="field-group-label">元</span>
+                                </div>
                                 {
                                     this.state.isNew ? (
-                                        <Group className="margin-0">
-                                            <Button type="submit" onClick={this.handleAddRecord} amStyle="primary" block>新增记录</Button>
-                                        </Group>
+                                        <div className="margin-0 group">
+                                            <div className="group-body">
+                                                <button type="submit" onClick={this.handleAddRecord} className="btn btn-primary btn-block">新增记录</button>
+                                            </div>
+                                        </div>
                                     ) : (
-                                        <Group className="margin-0 text-center">
-                                            <Button onClick={this.handleDelRecord} amStyle="alert">删除记录</Button>
-                                            <Button onClick={this.handleSaveRecord} amStyle="secondary">保存修改</Button>
-                                        </Group>
+                                        <div className="margin-0 text-center group">
+                                            <div className="group-body">
+                                                <button onClick={this.handleDelRecord} className="btn btn-alert">删除记录</button>
+                                                <button onClick={this.handleSaveRecord} className="btn btn-secondary">保存修改</button>
+                                            </div>
+                                        </div>
                                     )
                                 }
                                 <Modal title="确定删除吗？" role="confirm" isOpen={this.state.showConfirm} onAction={this.handleAction}/>
-                            </Container>
-                        </View>
+                            </div>
+                        </div>
                     </div>
-                </Container>
+                </div>
             )
         }
     }

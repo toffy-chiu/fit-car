@@ -1,6 +1,3 @@
-var Grid=require('amazeui-touch/lib/Grid');
-var Col=require('amazeui-touch/lib/Col');
-var Group=require('amazeui-touch/lib/Group');
 var itemObj=require('../../constants/CostType');
 var Icon=require('../../components/Icon');
 
@@ -11,7 +8,7 @@ module.exports = React.createClass({
      */
     getItemHTML:function(itemName){
         return (
-            <Col>
+            <div className="col">
                 <Icon name={itemObj[itemName].icon} color={this.props.value[itemName]?itemObj[itemName].color:'#ccc'} style={{verticalAlign:'top'}}/>
                 <span style={{marginLeft:'3px'}}>{itemObj[itemName].name}</span>
                 {
@@ -19,23 +16,25 @@ module.exports = React.createClass({
                     ?<span className="fr">￥{this.props.value[itemName]}</span>
                     :null
                 }
-            </Col>
+            </div>
         )
     },
     render: function() {
         return (
-            <Group noPadded className="margin-0">
-                <Grid bordered avg={2} className="itemTable">
-                    {this.getItemHTML('gas')}
-                    {this.getItemHTML('park')}
-                    {this.getItemHTML('wash')}
-                    {this.getItemHTML('maintain')}
-                    {this.getItemHTML('fix')}
-                    {this.getItemHTML('breach')}
-                    {this.getItemHTML('road')}
-                    {this.getItemHTML('others')}
-                </Grid>
-            </Group>
+            <div className="margin-0 group group-no-padded">
+                <div className="group-body">
+                    <div className="itemTable g g-bordered g-avg-2">
+                        {this.getItemHTML('gas')}
+                        {this.getItemHTML('park')}
+                        {this.getItemHTML('wash')}
+                        {this.getItemHTML('maintain')}
+                        {this.getItemHTML('fix')}
+                        {this.getItemHTML('breach')}
+                        {this.getItemHTML('road')}
+                        {this.getItemHTML('others')}
+                    </div>
+                </div>
+            </div>
         );
     }
 });

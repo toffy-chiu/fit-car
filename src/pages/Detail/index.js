@@ -1,9 +1,7 @@
 var Link=require('react-router').Link;
 var NavBar=require('../../components/NavBar');
 var Icon=require('../../components/Icon');
-var Group=require('amazeui-touch/lib/Group');
-var Loader=require('amazeui-touch/lib/Loader');
-var Container=require('amazeui-touch/lib/Container');
+var Loader=require('../../components/Loader');
 
 var db = require('../../lib/IndexDB');
 var ct=require('../../constants/CostType');
@@ -44,52 +42,50 @@ module.exports=React.createClass({
     },
     render:function(){
         if(this.state.loading){
-            return (
-                <div className="loading">
-                    <Loader rounded amStyle="primary"/>
-                </div>
-            )
+            return <Loader/>
         }else {
             return (
-                <Container>
+                <div className="container">
                     <NavBar title="消费明细" leftNav={{}} />
                     <div className="item item-header">{this.props.params.date}</div>
-                    <Group noPadded className="margin-0">
-                        {
-                            this.state.list.length ? (
-                                <ul className="list">
-                                    {
-                                        this.state.list.map(function (o) {
-                                            o = this.getItem(o);
-                                            return (
-                                                <li key={o.id} className="item item-linked">
-                                                    <Link to={'/edit/'+o.id}
-                                                          style={{display:'flex',alignItems:'center'}}>
-                                                        <div className="text-center"
-                                                             style={{lineHeight:1,borderRight:'1px solid #ccc',paddingRight:10,marginRight:10}}>
-                                                            <strong>{o.day}</strong>
-                                                            <br/>
-                                                            <small>{o.week}</small>
-                                                        </div>
-                                                        <Icon name={o.icon} color={o.color} size="30"/>
-                                                        <strong
-                                                            style={{marginLeft:'5px',verticalAlign:'text-top',flexGrow:1}}>{o.name}</strong>
-                                                        <div>
-                                                            <span>￥{o.amount} </span>
-                                                            <Icon name="right" color="#ccc" size="16" style={{margin:'0 0 -2px 10px'}}/>
-                                                        </div>
-                                                    </Link>
-                                                </li>
-                                            )
-                                        }.bind(this))
-                                    }
-                                </ul>
-                            ) : (
-                                <h3 className="text-center padding-v-lg">没有数据！</h3>
-                            )
-                        }
-                    </Group>
-                </Container>
+                    <div className="margin-0 group group-no-padded">
+                        <div className="group-body">
+                            {
+                                this.state.list.length ? (
+                                    <ul className="list">
+                                        {
+                                            this.state.list.map(function (o) {
+                                                o = this.getItem(o);
+                                                return (
+                                                    <li key={o.id} className="item item-linked">
+                                                        <Link to={'/edit/'+o.id}
+                                                              style={{display:'flex',alignItems:'center'}}>
+                                                            <div className="text-center"
+                                                                 style={{lineHeight:1,borderRight:'1px solid #ccc',paddingRight:10,marginRight:10}}>
+                                                                <strong>{o.day}</strong>
+                                                                <br/>
+                                                                <small>{o.week}</small>
+                                                            </div>
+                                                            <Icon name={o.icon} color={o.color} size="30"/>
+                                                            <strong
+                                                                style={{marginLeft:'5px',verticalAlign:'text-top',flexGrow:1}}>{o.name}</strong>
+                                                            <div>
+                                                                <span>￥{o.amount} </span>
+                                                                <Icon name="right" color="#ccc" size="16" style={{margin:'0 0 -2px 10px'}}/>
+                                                            </div>
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            }.bind(this))
+                                        }
+                                    </ul>
+                                ) : (
+                                    <h3 className="text-center padding-v-lg">没有数据！</h3>
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
             )
         }
     }

@@ -1,5 +1,4 @@
 var NavBar=require('../../components/NavBar');
-var Container=require('amazeui-touch/lib/Container');
 var Link=require('react-router').Link;
 
 var TopDate = require('./TopDate');
@@ -49,7 +48,7 @@ module.exports=React.createClass({
             {url:'/setting', icon:'setting', name:'设置'}
         ];
         return (
-            <Container fill direction="column">
+            <div className="container container-fill container-column">
                 <div className="views">
                     <NavBar title="车消费记录" />
                     <TopDate onDateChange={this.topDateChange} />
@@ -68,7 +67,7 @@ module.exports=React.createClass({
                         })
                     }
                 </nav>
-            </Container>
+            </div>
         )
     }
 });
