@@ -90,7 +90,7 @@ module.exports=React.createClass({
         }else {
             return (
                 <div className="container container-fill container-column">
-                    <NavBar title="新增消费记录" leftNav={{}} />
+                    <NavBar title="新增消费记录" leftNav={{href:!this.state.isNew?'/detail/'+this.state.date.slice(0, 7):null}} />
                     <div className="views">
                         <div className="view">
                             <div className="container container-fill container-scrollable">

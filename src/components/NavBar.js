@@ -1,4 +1,5 @@
 var Icon=require('./Icon');
+var Link=require('react-router').Link;
 
 var NavBar=React.createClass({
     propTypes:{
@@ -12,9 +13,9 @@ var NavBar=React.createClass({
                 {
                     this.props.leftNav?(
                         <div className="navbar-nav navbar-left">
-                            <a href={this.props.leftNav.href||'javascript:history.back()'}>
+                            <Link to={this.props.leftNav.href||'/index'}>
                                 <Icon name={this.props.leftNav.icon||'back'} color="white" style={{marginBottom:-6}}/>
-                            </a>
+                            </Link>
                         </div>
                     ):null
                 }
