@@ -49,7 +49,7 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
         //new ExtractTextPlugin(isProd ? '[name].[chunkhash:8].css' : '[name].css'),
         new HtmlWebpackPlugin({
-            title:'汽车花销管理',
+            title:'汽车花销',
             favicon:'./src/img/favicon.png',
             template:isProd?'./src/index.html':'./src/index.debug.html',
             filename:'./index.html' //结合output.path
