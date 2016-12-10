@@ -1,20 +1,28 @@
 var Link=require('react-router').Link;
-var NavBar=require('../../components/NavBar');
 var Icon=require('../../components/Icon');
 var Loader=require('../../components/Loader');
+var TopDate = require('../../components/TopDate');
 
 var db = require('../../lib/IndexDB');
 var ct=require('../../constants/CostType');
 
 module.exports=React.createClass({
     getInitialState:function(){
+        var now=new Date();
         return {
             loading:true,
+            date:now.getFullYear()+'-'+TopDate.fixDecade(now.getMonth()+1),
             list: []
         }
     },
     componentDidMount:function(){
-        //读取数据库
+        this.loadData(this.state.date);
+    },
+    /**
+     * 加载数据
+     * @param date
+     */
+    loadData:function(date){
         db.getList(db.TABLE_CONSUMPTION, function(list){
             //倒序排序
             list.sort(function(a, b){
@@ -22,11 +30,23 @@ module.exports=React.createClass({
             });
             this.setState({
                 loading:false,
+                date:date,
                 list:list
             });
-        }.bind(this), db.index_date, db.keyRange.atMonth([this.props.params.date]));
+        }.bind(this), db.index_date, db.keyRange.atMonth([date]));
     },
-    //条目数据预处理
+    /**
+     * 改变日期
+     * @param date
+     */
+    handleDateChange:function(date){
+        this.loadData(date);
+    },
+    /**
+     * 条目数据预处理
+     * @param item
+     * @returns {{id: *, day: number, week: string, icon: *, name: *, color: *, amount: *}}
+     */
     getItem:function(item){
         var date=new Date(item.date.replace(/-/g, '/'));
         var weekNames=['日','一','二','三','四','五','六'];
@@ -46,8 +66,7 @@ module.exports=React.createClass({
         }else {
             return (
                 <div className="container">
-                    <NavBar title="消费明细" leftNav={{}} />
-                    <div className="item item-header">{this.props.params.date}</div>
+                    <TopDate value={this.state.date} onChange={this.handleDateChange} />
                     <div className="margin-0 group group-no-padded">
                         <div className="group-body">
                             {

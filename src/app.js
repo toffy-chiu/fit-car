@@ -1,14 +1,14 @@
 var ReactDOM=require('react-dom');
 var ReactRouter=require('react-router'),
     hashHistory=ReactRouter.hashHistory,
-    IndexRoute=ReactRouter.IndexRoute,
+    IndexRedirect=ReactRouter.IndexRedirect,
     Route=ReactRouter.Route,
     Router=ReactRouter.Router;
 require('./lib/iconfont');
 require('./css/amazeui.touch.min.css');
 require('./css/app.css');
 
-//首页
+var Master=require('./components/Master');
 var Index=require('./pages/Index');
 var Edit=require('./pages/Edit');
 var Detail=require('./pages/Detail');
@@ -18,12 +18,14 @@ var Setting=require('./pages/Setting');
 ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/">
-            <IndexRoute component={Index}/>
-            <Route path="/index" component={Index}/>
-            <Route path="/edit(/:id)" component={Edit}/>
-            <Route path="/detail/:date" component={Detail}/>
-            <Route path="/overview" component={Overview}/>
-            <Route path="/setting" component={Setting}/>
+            <IndexRedirect to="/index"/>
+            <Route component={Master}>
+                <Route path="index" component={Index}/>
+                <Route path="detail" component={Detail}/>
+                <Route path="overview" component={Overview}/>
+                <Route path="setting" component={Setting}/>
+            </Route>
+            <Route path="edit(/:id)" component={Edit}/>
         </Route>
     </Router>
     ,

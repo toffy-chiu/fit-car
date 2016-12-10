@@ -89,40 +89,36 @@ module.exports=React.createClass({
             return <Loader/>
         }else {
             return (
-                <div className="container container-fill container-column">
-                    <NavBar title="新增消费记录" leftNav={{href:!this.state.isNew?'/detail/'+this.state.date.slice(0, 7):null}} />
-                    <div className="views">
-                        <div className="view">
-                            <div className="container container-fill container-scrollable">
-                                <div className="field-group">
-                                    <span className="field-group-label">消费时间：</span>
-                                    <input ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange} className="field"/>
-                                </div>
-                                <ItemRows ref="itemRows" value={this.state.type} onChange={this.handleFieldChange}/>
-                                <div className="field-group">
-                                    <span className="field-group-label">消费金额：</span>
-                                    <input ref="amount" type="number" min="0" value={this.state.amount} onChange={this.handleFieldChange} placeholder="请输入消费金额" className="field"/>
-                                    <span className="field-group-label">元</span>
-                                </div>
-                                {
-                                    this.state.isNew ? (
-                                        <div className="margin-0 group">
-                                            <div className="group-body">
-                                                <button type="submit" onClick={this.handleAddRecord} className="btn btn-primary btn-block">新增记录</button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="margin-0 text-center group">
-                                            <div className="group-body">
-                                                <button onClick={this.handleDelRecord} className="btn btn-alert">删除记录</button>
-                                                <button onClick={this.handleSaveRecord} className="btn btn-secondary">保存修改</button>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                                <Modal title="确定删除吗？" role="confirm" isOpen={this.state.showConfirm} onAction={this.handleAction}/>
-                            </div>
+                <div>
+                    <NavBar title={this.state.isNew?'新增记录':'修改记录'} leftNav={{href:this.state.isNew?'/index':'/detail'}} />
+                    <div className="container">
+                        <div className="field-group">
+                            <span className="field-group-label">消费时间：</span>
+                            <input ref="date" type="date" value={this.state.date} onChange={this.handleFieldChange} className="field"/>
                         </div>
+                        <ItemRows ref="itemRows" value={this.state.type} onChange={this.handleFieldChange}/>
+                        <div className="field-group">
+                            <span className="field-group-label">消费金额：</span>
+                            <input ref="amount" type="number" min="0" value={this.state.amount} onChange={this.handleFieldChange} placeholder="请输入消费金额" className="field"/>
+                            <span className="field-group-label">元</span>
+                        </div>
+                        {
+                            this.state.isNew ? (
+                                <div className="margin-0 group">
+                                    <div className="group-body">
+                                        <button type="submit" onClick={this.handleAddRecord} className="btn btn-primary btn-block">提交</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="margin-0 text-center group">
+                                    <div className="group-body">
+                                        <button onClick={this.handleDelRecord} className="btn btn-alert">删除</button>
+                                        <button onClick={this.handleSaveRecord} className="btn btn-secondary">保存</button>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        <Modal title="确定删除吗？" role="confirm" isOpen={this.state.showConfirm} onAction={this.handleAction}/>
                     </div>
                 </div>
             )

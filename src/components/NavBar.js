@@ -4,7 +4,8 @@ var Link=require('react-router').Link;
 var NavBar=React.createClass({
     propTypes:{
         title:React.PropTypes.string,
-        leftNav:React.PropTypes.object
+        leftNav:React.PropTypes.object,
+        rightNav:React.PropTypes.object
     },
     render: function() {
         return (
@@ -19,9 +20,18 @@ var NavBar=React.createClass({
                         </div>
                     ):null
                 }
+                {
+                    this.props.rightNav?(
+                        <div className="navbar-nav navbar-right">
+                            <Link to={this.props.rightNav.href}>
+                                <Icon name={this.props.rightNav.icon} color="white" style={{marginBottom:-6}}/>
+                            </Link>
+                        </div>
+                    ):null
+                }
             </header>
         )
     }
 });
 
-module.exports=NavBar;
+module.exports = NavBar;

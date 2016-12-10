@@ -1,4 +1,3 @@
-var NavBar=require('../../components/NavBar');
 var Icon=require('../../components/Icon');
 var Loader=require('../../components/Loader');
 
@@ -75,43 +74,33 @@ module.exports=React.createClass({
                 }.bind(this));
             }
             return (
-                <div className="container container-fill container-column">
-                    <NavBar title={`花销总览（共 ${total} 元）`} leftNav={{}} />
-                    <div className="views">
-                        <div className="view">
-                            <div className="container container-fill container-scrollable">
-                                <div className="margin-0 group group-no-padded">
-                                    <div className="group-body">
-                                        {
-                                            list.length ? (
-                                                <ul className="list">
-                                                    {
-                                                        list.map(function (o, i) {
-                                                            return o.title
-                                                                ? <li className="item item-header" key={i}>{o.title}</li>
-                                                                : (
-                                                                <li className="item" key={i}>
-                                                                    <h3 className="item-title">
-                                                                        <div style={{display:'flex',alignItems:'center'}}>
-                                                                            <Icon name={o.icon} color={o.color} size="30"/>
-                                                                            <span style={{marginLeft:5}}>{o.name}</span>
-                                                                        </div>
-                                                                    </h3>
-                                                                    <div className="item-after">{o.amount}</div>
-                                                                </li>
-                                                            )
-                                                        })
-                                                    }
-                                                </ul>
-                                            ) : (
-                                                <h3 className="text-center padding-v-lg">没有数据！</h3>
-                                            )
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="container">
+                    <div className="text-center">共 {total} 元</div>
+                    {
+                        list.length ? (
+                            <ul className="list margin-0">
+                                {
+                                    list.map(function (o, i) {
+                                        return o.title
+                                            ? <li className="item item-header" key={i}>{o.title}</li>
+                                            : (
+                                            <li className="item" key={i}>
+                                                <h3 className="item-title">
+                                                    <div style={{display:'flex',alignItems:'center'}}>
+                                                        <Icon name={o.icon} color={o.color} size="30"/>
+                                                        <span style={{marginLeft:5}}>{o.name}</span>
+                                                    </div>
+                                                </h3>
+                                                <div className="item-after">{o.amount}</div>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        ) : (
+                            <h3 className="text-center padding-v-lg">没有数据！</h3>
+                        )
+                    }
                 </div>
             )
         }
